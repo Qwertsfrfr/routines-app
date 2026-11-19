@@ -320,7 +320,7 @@ function occurrences(from, days) {
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.5';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.6';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
@@ -772,6 +772,16 @@ if (isNative) {
 }
 
 /* ---------- OTA web-bundle updates (self-hosted, @capgo/capacitor-updater manual mode) ---------- */
+function vcmp(a, b) {   // compare dotted versions numerically; non-numeric (e.g. 'builtin') sorts lowest
+  const p = v => String(v || '').split('.').map(n => parseInt(n, 10));
+  const x = p(a), y = p(b);
+  for (let i = 0; i < Math.max(x.length, y.length); i++) {
+    const m = x[i] || 0, n = y[i] || 0;
+    if (isNaN(m) || isNaN(n)) return isNaN(m) ? (isNaN(n) ? 0 : -1) : 1;
+    if (m !== n) return m > n ? 1 : -1;
+  }
+  return 0;
+}
 async function otaCheck() {
   const U = window.Capacitor.Plugins.CapacitorUpdater;
   if (!U) return;
@@ -781,12 +791,12 @@ async function otaCheck() {
     const b = cur && cur.bundle;
     // A bundle queued by next() is normally applied when the app is backgrounded; if the app was killed
     // in the foreground instead, apply it now on cold launch.
-    try { const nx = await U.getNextBundle(); if (nx && nx.id && b && nx.id !== b.id && nx.status !== 'error') { await U.set({ id: nx.id }); return; } } catch (e) {}
-    const curVer = !b || b.id === 'builtin' ? APP_VERSION : b.version;
+    // Only ever move forward: APP_VERSION is the version of the bundle that is running right now.
+    try { const nx = await U.getNextBundle(); if (nx && nx.id && b && nx.id !== b.id && nx.status !== 'error' && vcmp(nx.version, APP_VERSION) > 0) { await U.set({ id: nx.id }); return; } } catch (e) {}
     const r = await fetch(OTA_URL + '?t=' + Date.now(), { cache: 'no-store' });
     if (!r.ok) return;
     const j = await r.json();
-    if (!j || !j.version || !j.url || j.version === curVer || j.version === APP_VERSION) return;
+    if (!j || !j.version || !j.url || vcmp(j.version, APP_VERSION) <= 0) return;
     let nb = null;
     try { const l = await U.list(); nb = (l.bundles || []).find(x => x.version === j.version && x.status !== 'error') || null; } catch (e) {}
     if (!nb) nb = await U.download({ url: j.url, version: j.version, checksum: j.checksum || '' });
