@@ -320,7 +320,7 @@ function occurrences(from, days) {
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.2';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.3';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
@@ -786,7 +786,7 @@ async function otaCheck() {
     if (!j || !j.version || !j.url || j.version === curVer || j.version === APP_VERSION) return;
     let nb = null;
     try { const l = await U.list(); nb = (l.bundles || []).find(x => x.version === j.version && x.status !== 'error') || null; } catch (e) {}
-    if (!nb) nb = await U.download({ url: j.url, version: j.version });
+    if (!nb) nb = await U.download({ url: j.url, version: j.version, checksum: j.checksum || '' });
     if (!nb || !nb.id) return;
     await U.next({ id: nb.id });
     otaToast(U, nb.id);
