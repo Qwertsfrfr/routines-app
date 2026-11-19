@@ -320,7 +320,7 @@ function occurrences(from, days) {
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.4';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.5';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
@@ -779,6 +779,9 @@ async function otaCheck() {
   try {
     const cur = await U.current();
     const b = cur && cur.bundle;
+    // A bundle queued by next() is normally applied when the app is backgrounded; if the app was killed
+    // in the foreground instead, apply it now on cold launch.
+    try { const nx = await U.getNextBundle(); if (nx && nx.id && b && nx.id !== b.id && nx.status !== 'error') { await U.set({ id: nx.id }); return; } } catch (e) {}
     const curVer = !b || b.id === 'builtin' ? APP_VERSION : b.version;
     const r = await fetch(OTA_URL + '?t=' + Date.now(), { cache: 'no-store' });
     if (!r.ok) return;
