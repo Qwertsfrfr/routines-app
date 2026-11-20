@@ -676,23 +676,33 @@ function fmtCD(sec) {
 }
 
 /* ---------- storage ---------- */
-function seed() {
-  const st = (t, m) => ({ id: uid(), text: t, mins: m || 0 });
-  return {
-    routines: [
-      { id: uid(), name: 'Morning', emoji: '\u{1F305}', color: COLORS[2], time: '07:00', days: [0,1,2,3,4,5,6], steps: [st('Drink a glass of water', 2), st('Stretch', 5), st('Shower', 10), st('Breakfast', 15), st('Plan the day', 5)] },
-      { id: uid(), name: 'Gym', emoji: '\u{1F3CB}️', color: COLORS[0], time: '18:00', days: [1,3,5], steps: [st('Pack gym bag', 5), st('Warm up', 10), st('Main lifts', 40), st('Cool down', 10), st('Protein shake', 5)] },
-      { id: uid(), name: 'Wind down', emoji: '\u{1F319}', color: COLORS[4], time: '22:00', days: [0,1,2,3,4,5,6], steps: [st('Phone on charger', 1), st("Prep tomorrow's clothes", 5), st('Brush teeth', 3), st('Read', 20)] }
-    ],
-    reminders: [], events: [], ticks: { date: dstr(new Date()), map: {} }
-  };
+function seed() { return { routines: [], reminders: [], events: [], ticks: { date: dstr(new Date()), map: {} } }; }
+/* one-time: remove the old built-in example routines (exact name+time+days+steps match only) */
+const OLD_SEED = [
+  ['Morning','07:00','0123456',[['Drink a glass of water',2],['Stretch',5],['Shower',10],['Breakfast',15],['Plan the day',5]]],
+  ['Gym','18:00','135',[['Pack gym bag',5],['Warm up',10],['Main lifts',40],['Cool down',10],['Protein shake',5]]],
+  ['Wind down','22:00','0123456',[['Phone on charger',1],["Prep tomorrow's clothes",5],['Brush teeth',3],['Read',20]]]
+];
+function migrateNoSeed() {
+  try {
+    if (localStorage.getItem('migr_noseed_v1')) return;
+    const sig = r => JSON.stringify([r.name, r.time, (r.days || []).slice().sort().join(''), (r.steps || []).map(x => [x.text, +x.mins || 0])]);
+    const sigs = OLD_SEED.map(x => JSON.stringify(x));
+    const gone = data.routines.filter(r => !r.img && (r.steps || []).every(x => !x.img) && sigs.includes(sig(r))).map(r => r.id);
+    if (gone.length) {
+      data.routines = data.routines.filter(r => !gone.includes(r.id));
+      gone.forEach(id => { if (data.ticks && data.ticks.map) delete data.ticks.map[id]; });
+      save(); /* save() triggers photo gc + notification reschedule */
+    }
+    localStorage.setItem('migr_noseed_v1', '1');
+  } catch (e) {}
 }
 let data, saveFailed = false;
 function load() {
   try { const r = localStorage.getItem(KEY); if (r) data = JSON.parse(r); } catch (e) { data = null; }
   if (!data || !Array.isArray(data.routines)) { data = seed(); save(); }
   data.reminders = data.reminders || []; data.events = Array.isArray(data.events) ? data.events : []; data.ticks = data.ticks || { date: '', map: {} };
-  rollDay();
+  rollDay(); migrateNoSeed();
 }
 function save() { gcSoon(); try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { saveFailed = true; } try { clearTimeout(window._rs); window._rs = setTimeout(() => { bridgeSync(); scheduleTriggers(); }, 400); } catch (e) {} }
 function rollDay() { const t = dstr(new Date()); if (data.ticks.date !== t) { data.ticks = { date: t, map: {} }; save(); } }
@@ -797,7 +807,7 @@ function evSnap() {   // next timed event starts for the widgets (RoutineBridge.
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.17';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.18';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
@@ -2190,7 +2200,7 @@ document.addEventListener('click', ev => {
   if (t.id === 'testn') { notify({ key: 'test-' + Date.now(), title: 'Routines', body: 'Notifications are working.' }); return; }
   if (t.id === 'exp') { exportData(); return; }
   if (t.id === 'imp') { $('#file').click(); return; }
-  if (t.id === 'reset') { confirmDlg('Reset everything?', 'All routines, reminders, events and ticks will be replaced with the three example routines.', 'Reset', true).then(ok => { if (ok) { data = seed(); save(); render(true); resync(); } }); return; }
+  if (t.id === 'reset') { confirmDlg('Reset everything?', 'All routines, reminders, events and ticks will be erased.', 'Reset', true).then(ok => { if (ok) { data = seed(); save(); render(true); resync(); } }); return; }
 });
 document.addEventListener('input', ev => { if (ev.target.id === 'ai-in' && ai) { clearTimeout(ai.t); ai.t = setTimeout(aiParse, 260); } });
 document.addEventListener('change', async ev => {
