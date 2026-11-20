@@ -180,12 +180,14 @@ button.box::after{content:"";position:absolute;inset:-10px}
 .fresh .step{animation:rise 520ms var(--e) both;animation-delay:calc(var(--i,0) * 40ms + 120ms)}
 
 /* nav: floating frosted capsule, inverting pill */
-nav{position:fixed;left:16px;right:16px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:5;max-width:460px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);padding:6px;border-radius:24px;background:rgba(var(--G18),.74);-webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);border:1px solid rgba(var(--W),.1);box-shadow:0 12px 40px rgba(0,0,0,calc(.7 * var(--ka))),inset 0 1px 0 rgba(var(--W),.06);view-transition-name:nav}
-nav button{position:relative;height:54px;border:0;background:none;color:var(--t3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:500 10.5px var(--body);letter-spacing:.01em;transition:color var(--d3) var(--e)}
+nav{position:fixed;left:16px;right:16px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:5;max-width:460px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);padding:6px;border-radius:24px;background:rgba(var(--G18),.74);-webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);border:1px solid rgba(var(--W),.1);box-shadow:0 12px 40px rgba(0,0,0,calc(.7 * var(--ka))),inset 0 1px 0 rgba(var(--W),.06);view-transition-name:nav}
+nav button{position:relative;min-width:0;height:54px;padding:0;border:0;background:none;color:var(--t3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:500 10.5px var(--body);letter-spacing:.01em;transition:color var(--d3) var(--e)}
+nav button span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:360px){nav{left:10px;right:10px}nav button{font-size:9.5px;letter-spacing:0}}
 nav button .ic{width:20px;height:20px;transition:transform var(--d1) var(--e)}
 nav button:active .ic{transform:scale(.9)}
 nav button.on{color:var(--fg)}
-nav .ind{position:absolute;z-index:2;left:6px;top:6px;bottom:6px;width:calc((100% - 12px) / 4);border-radius:18px;background:var(--fg);mix-blend-mode:difference;pointer-events:none;transform:translateX(calc(var(--k,0) * 100%));transition:transform 520ms cubic-bezier(.65,0,.2,1)}
+nav .ind{position:absolute;z-index:2;left:6px;top:6px;bottom:6px;width:calc((100% - 12px) / 5);border-radius:18px;background:var(--fg);mix-blend-mode:difference;pointer-events:none;transform:translateX(calc(var(--k,0) * 100%));transition:transform 520ms cubic-bezier(.65,0,.2,1)}
 .fab{position:fixed;right:20px;bottom:calc(96px + env(safe-area-inset-bottom));width:54px;height:54px;border-radius:18px;border:0;background:var(--fg);color:var(--ink);display:grid;place-items:center;z-index:4;box-shadow:0 10px 30px rgba(0,0,0,calc(.65 * var(--ka)));transform:translateY(10px) scale(.9);opacity:0;pointer-events:none;transition:transform 380ms var(--spring),opacity var(--d2) var(--e)}
 .fab .ic{width:22px;height:22px;stroke-width:1.75}
 .fab.show{transform:none;opacity:1;pointer-events:auto}
@@ -207,7 +209,7 @@ nav .ind{position:absolute;z-index:2;left:6px;top:6px;bottom:6px;width:calc((100
 .sh-title{margin-bottom:6px}
 .acts{display:flex;gap:8px;margin-top:24px}
 label{display:block;margin:22px 0 8px;color:var(--t3);font:400 10.5px var(--mono);letter-spacing:.16em;text-transform:uppercase}
-input[type=text],input[type=time],input[type=number],input[type=datetime-local]{width:100%;height:48px;padding:0 14px;border-radius:13px;border:1px solid var(--line2);background:var(--fill);color:var(--fg);font:400 15px var(--body);color-scheme:var(--cs);transition:border-color var(--d2) var(--e),box-shadow var(--d2) var(--e)}
+input[type=text],input[type=time],input[type=date],input[type=number],input[type=datetime-local]{width:100%;height:48px;padding:0 14px;border-radius:13px;border:1px solid var(--line2);background:var(--fill);color:var(--fg);font:400 15px var(--body);color-scheme:var(--cs);transition:border-color var(--d2) var(--e),box-shadow var(--d2) var(--e)}
 input:focus{outline:none;border-color:rgba(var(--W),.5);box-shadow:0 0 0 4px rgba(var(--W),.07)}
 input::placeholder{color:var(--t4)}
 .days7{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
@@ -390,6 +392,76 @@ html[data-dir=back]::view-transition-new(main){animation-name:vtInB}
 .nl::after{content:"";position:absolute;left:47.5px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--fg);box-shadow:0 0 0 4px rgba(var(--W),.14),0 0 14px rgba(var(--W),.5)}
 .nl b{position:absolute;left:0;top:0;transform:translateY(-50%);padding:3px 6px 2px;border-radius:999px;background:var(--fg);color:var(--ink);font:500 10px/1.2 var(--mono);letter-spacing:.02em}
 .calm{margin:22px 0 0 66px;color:var(--t3);font-family:var(--disp);font-style:italic;font-size:19px;line-height:1.3}
+/* events: outlined, hollow blocks (routines are filled) */
+.evm{display:inline-block;width:8px;height:8px;margin-right:9px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--fg);vertical-align:1px;flex:none}
+.tl .tev{position:absolute;left:66px;right:0;display:flex;align-items:flex-start;gap:12px;padding:15px 12px 0 18px;border:1px solid var(--line3);border-radius:22px;background:none;color:inherit;text-align:left;overflow:hidden;transition:opacity 400ms var(--e),transform var(--d2) var(--e),border-color 400ms var(--e)}
+.tl .tev:active{transform:scale(.985)}
+.tl .tev.past{opacity:.42}
+.tl .tev.now{border-color:var(--fg)}
+.tl .tev .th{width:40px;height:40px;border-radius:11px;margin-top:-3px}
+.adw{position:relative;margin-top:20px;padding-left:66px;display:flex;flex-wrap:wrap;gap:8px}
+.adw>.mono{position:absolute;left:0;top:11px;color:var(--t2);font-size:10.5px;letter-spacing:.02em}
+.adc{display:inline-flex;align-items:center;max-width:100%;height:36px;padding:0 15px 0 13px;border:1px solid var(--line3);border-radius:999px;background:none;color:var(--t1);font:500 13.5px var(--body);letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:transform var(--d1) var(--e)}
+.adc:active{transform:scale(.96)}
+.adc .evm{margin-right:8px}
+
+/* calendar: month grid, day agenda */
+.cph{align-items:center}
+.cph h1{font-size:min(58px,14.5vw)}
+.cph .btn.sm{align-self:center}
+.cbar{display:flex;align-items:center;gap:6px;margin:-6px 0 0}
+.cbar>.mono:first-child{color:var(--t3);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase}
+.cnb{width:38px;height:38px;flex:none;display:grid;place-items:center;padding:0;border:1px solid var(--line2);border-radius:12px;background:var(--fill);color:var(--t2);transition:transform var(--d1) var(--e),color var(--d2) var(--e)}
+.cnb:active{transform:scale(.92)}
+.cpill{height:38px;padding:0 12px;border:1px solid var(--line2);border-radius:12px;background:none;color:var(--t3);font:400 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;transition:color var(--d2) var(--e),border-color var(--d2) var(--e),transform var(--d1) var(--e)}
+.cpill i{width:5px;height:5px;border-radius:50%;background:var(--t4);transition:background-color var(--d2) var(--e)}
+.cpill.on{color:var(--t1);border-color:var(--line3)}.cpill.on i{background:var(--fg)}
+.cpill:active{transform:scale(.96)}
+@media (max-width:380px){.cev{display:none}}
+.cwk{display:grid;grid-template-columns:repeat(7,1fr);margin:22px 0 8px;color:var(--t4);font:400 10.5px var(--mono);letter-spacing:.14em;text-align:center}
+.cgw{overflow:hidden;margin:0 -8px;padding:2px 8px 4px}
+.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;touch-action:pan-y;will-change:transform;transition:transform var(--d2) var(--e),opacity var(--d2) var(--e)}
+.cgrid.drag{transition:none}
+.cday{position:relative;height:50px;min-width:0;padding:0;border:0;border-radius:15px;background:none;color:var(--t1);font:400 15px/1 var(--body);letter-spacing:-.01em;display:grid;place-items:center;transition:transform var(--d1) var(--e),background-color var(--d2) var(--e),color var(--d2) var(--e),box-shadow var(--d2) var(--e)}
+.cday b{font-weight:inherit;transform:translateY(-3px)}
+.cday:active{transform:scale(.9)}
+.cday.past{color:var(--t3)}
+.cday.out{color:var(--t4)}
+.cday.sel{background:var(--fill);box-shadow:inset 0 0 0 1px var(--line3);color:var(--fg)}
+.cday.tod{background:var(--fg);color:var(--ink);font-weight:500}
+.cday.tod.sel{box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--line3)}
+.cdots{position:absolute;left:0;right:0;bottom:8px;height:4px;display:flex;justify-content:center;align-items:center;gap:3px}
+.cdots i{width:4px;height:4px;border-radius:50%;background:var(--fg)}
+.cdots i.rt{width:3px;height:3px;background:var(--t4)}
+.cday.out .cdots i{opacity:.45}
+.cday.tod .cdots i{background:var(--ink)}.cday.tod .cdots i.rt{opacity:.45}
+.stg .cday{animation:rise 460ms var(--e) both;animation-delay:calc(var(--i,0) * 16ms + 120ms)}
+.swapt>span{animation:blurin 520ms var(--e) both;animation-delay:calc(var(--j,0) * 22ms)}
+.agw{overflow:hidden}
+.agw .sh{margin-top:30px}
+.agw .empty.sm{padding:18px 0 4px}
+.agin .sh,.agin .agi,.agin .empty{animation:rise 420ms var(--e) both;animation-delay:calc(var(--i,0) * 40ms + 40ms)}
+.ag{position:relative;margin-top:14px}
+.ag::before{content:"";position:absolute;left:51px;top:10px;bottom:10px;width:1px;background:linear-gradient(var(--line2),var(--line) 85%,transparent)}
+.agi{position:relative;display:flex;align-items:stretch;margin-bottom:10px;transition:opacity var(--d3) var(--e)}
+.agi::after{content:"";position:absolute;left:48px;top:20px;width:7px;height:7px;border-radius:50%;background:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line3)}
+.agi.ev::after{box-shadow:inset 0 0 0 1.5px var(--fg)}
+.agt{width:66px;flex:none;padding-top:19px;color:var(--t2);font:400 10.5px/1 var(--mono);letter-spacing:.02em}
+.agt.ad{padding-top:15px;line-height:1.3}
+.agb{flex:1;min-width:0;display:flex;align-items:center;gap:14px;padding:15px 14px 15px 18px;border:1px solid var(--line2);border-radius:22px;background:linear-gradient(rgba(var(--W),.045),rgba(var(--W),.015));color:inherit;text-align:left;font:inherit;transition:transform var(--d2) var(--e)}
+.agb:active{transform:scale(.985)}
+.agi.ev .agb{background:none;border-color:var(--line3)}
+.agi.past{opacity:.42}
+.agb .th{width:40px;height:40px;border-radius:11px}
+.agb .nm{overflow-wrap:anywhere}
+
+/* event form */
+.ch5{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.ch5 .chip{padding:0;font-size:11.5px}
+.ecol{display:grid;grid-template-rows:1fr;transition:grid-template-rows 260ms var(--sheetE),opacity var(--d2) var(--e)}
+.ecol>div{overflow:hidden;min-height:0}
+.ecol.off{grid-template-rows:0fr;opacity:0}
+textarea.ent{min-height:96px;font:400 15px/1.5 var(--body)}
 
 /* focus mode */
 body.focused main{transform:scale(.94);opacity:.3}
@@ -612,14 +684,14 @@ function seed() {
       { id: uid(), name: 'Gym', emoji: '\u{1F3CB}️', color: COLORS[0], time: '18:00', days: [1,3,5], steps: [st('Pack gym bag', 5), st('Warm up', 10), st('Main lifts', 40), st('Cool down', 10), st('Protein shake', 5)] },
       { id: uid(), name: 'Wind down', emoji: '\u{1F319}', color: COLORS[4], time: '22:00', days: [0,1,2,3,4,5,6], steps: [st('Phone on charger', 1), st("Prep tomorrow's clothes", 5), st('Brush teeth', 3), st('Read', 20)] }
     ],
-    reminders: [], ticks: { date: dstr(new Date()), map: {} }
+    reminders: [], events: [], ticks: { date: dstr(new Date()), map: {} }
   };
 }
 let data, saveFailed = false;
 function load() {
   try { const r = localStorage.getItem(KEY); if (r) data = JSON.parse(r); } catch (e) { data = null; }
   if (!data || !Array.isArray(data.routines)) { data = seed(); save(); }
-  data.reminders = data.reminders || []; data.ticks = data.ticks || { date: '', map: {} };
+  data.reminders = data.reminders || []; data.events = Array.isArray(data.events) ? data.events : []; data.ticks = data.ticks || { date: '', map: {} };
   rollDay();
 }
 function save() { gcSoon(); try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { saveFailed = true; } try { clearTimeout(window._rs); window._rs = setTimeout(() => { bridgeSync(); scheduleTriggers(); }, 400); } catch (e) {} }
@@ -659,12 +731,73 @@ function occurrences(from, days) {
   for (const m of data.reminders) if (!m.done && m.at) {
     const ts = new Date(m.at).getTime(); if (!isNaN(ts)) out.push({ key: 'm-' + m.id + '-' + ts, ts, title: m.title, body: 'Reminder' });
   }
+  const lim = from.getTime() + (days + 1) * 86400000;
+  for (const o of evNotifs(from.getTime(), days + 1)) if (o.at < lim) out.push({ key: 'e-' + o.id, ts: o.at, title: o.title, body: o.body });
   return out.filter(o => o.ts >= from.getTime()).sort((a, b) => a.ts - b.ts);
+}
+
+/* ---------- calendar events (app-only): { id, title, date, allDay, start, end, repeat, remind, note, loc, img } ---------- */
+const REP = [['none', 'Once'], ['daily', 'Daily'], ['weekly', 'Weekly'], ['monthly', 'Monthly'], ['yearly', 'Yearly']];
+const repName = k => (REP.find(x => x[0] === k) || REP[0])[1];
+const pd = s => { const [y, m, d] = String(s || '').split('-').map(Number); return new Date(y || 1970, (m || 1) - 1, d || 1); };
+const atM = (D, m) => new Date(D.getFullYear(), D.getMonth(), D.getDate(), 0, m);
+const evTimed = e => !e.allDay && /^\d{2}:\d{2}$/.test(e.start || '');
+const evEndM = e => { const s = mins(e.start), en = e.end ? mins(e.end) : 0; return en > s ? en : Math.min(1440, s + 60); };
+const evWhen = e => evTimed(e) ? e.start + (e.end && mins(e.end) > mins(e.start) ? '–' + e.end : '') : 'All day';
+function evOn(e, D) {
+  if (!e || !e.date) return false;
+  const b = pd(e.date); if (D < b) return false;
+  switch (e.repeat) {
+    case 'daily': return true;
+    case 'weekly': return D.getDay() === b.getDay();
+    case 'monthly': return D.getDate() === b.getDate();
+    case 'yearly': return D.getDate() === b.getDate() && D.getMonth() === b.getMonth();
+    default: return dstr(D) === e.date;
+  }
+}
+const evSort = (a, b) => (evTimed(a) - evTimed(b)) || (evTimed(a) ? mins(a.start) - mins(b.start) : 0) || a.title.localeCompare(b.title);
+const eventsOn = D => (data.events || []).filter(e => evOn(e, D)).sort(evSort);
+function evNowNext(now) {   // the event running now (timed, today) and the next timed event start within a week
+  let cur = null, nxt = null; const t = now.getTime();
+  for (let i = 0; i <= 7 && !nxt; i++) {
+    const D = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+    for (const e of eventsOn(D)) {
+      if (!evTimed(e)) continue;
+      const s = atM(D, mins(e.start)).getTime(), en = atM(D, evEndM(e)).getTime();
+      if (i === 0 && s <= t && t < en) { if (!cur) cur = { e, s, en }; }
+      else if (s > t && !nxt) nxt = { e, at: new Date(s) };
+    }
+  }
+  return { cur, nxt };
+}
+const EVID = (id, k, w) => 4000000 + (hid('e' + id + '|' + k + '|' + w) % 2000000);   // own id range (routines < 2M, reminders 2M-3M)
+function evNotifs(fromMs, days) {   // upcoming notifications: at start (all-day: 09:00) and optionally X min before; <= 6 occurrences per event
+  const out = [], cnt = {}, F = new Date(fromMs), rem = m => m >= 60 ? (m / 60) + ' h' : m + ' min';
+  for (let i = 0; i <= (days || 400); i++) {
+    const D = new Date(F.getFullYear(), F.getMonth(), F.getDate() + i), k = dstr(D);
+    for (const e of data.events || []) {
+      if ((cnt[e.id] || 0) >= 6 || !evOn(e, D)) continue;
+      const tm = evTimed(e), s = atM(D, tm ? mins(e.start) : 540).getTime(), rb = tm ? (+e.remind || 0) : 0, tail = e.loc ? ' · ' + e.loc : '';
+      let n = 0;
+      if (s >= fromMs) { out.push({ id: EVID(e.id, k, 's'), at: s, title: e.title, body: (tm ? 'Now · ' + evWhen(e) : 'Today · all day') + tail }); n++; }
+      if (rb && s - rb * 60000 >= fromMs) { out.push({ id: EVID(e.id, k, 'b'), at: s - rb * 60000, title: e.title, body: 'In ' + rem(rb) + ' · ' + evWhen(e) + tail }); n++; }
+      if (n) cnt[e.id] = (cnt[e.id] || 0) + 1;
+    }
+  }
+  return out;
+}
+function evSnap() {   // next timed event starts for the widgets (RoutineBridge.sync)
+  const out = [], now = new Date();
+  for (let i = 0; i <= 14 && out.length < 12; i++) {
+    const D = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+    for (const e of eventsOn(D)) if (evTimed(e)) { const a = atM(D, mins(e.start)).getTime(); if (a > now.getTime()) out.push({ t: e.title, at: a }); }
+  }
+  return out.slice(0, 12);
 }
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.16';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.17';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
@@ -676,7 +809,7 @@ let liveOn = (() => { try { return localStorage.getItem(LIVEK) !== '0'; } catch 
 function bridgeSync() {
   if (!RB || !data) return;
   try {
-    const snap = { v: 1, live: liveOn, theme: themePref, ticks: data.ticks, routines: data.routines.map(r => ({ id: r.id, name: r.name, emoji: r.emoji || '', time: r.time, dur: Math.max(15, routineDur(r)), days: r.days, steps: r.steps.map(s => ({ id: s.id, t: s.text })) })) };
+    const snap = { v: 1, live: liveOn, theme: themePref, ticks: data.ticks, routines: data.routines.map(r => ({ id: r.id, name: r.name, emoji: r.emoji || '', time: r.time, dur: Math.max(15, routineDur(r)), days: r.days, steps: r.steps.map(s => ({ id: s.id, t: s.text })) })), events: evSnap() };
     RB.sync({ json: JSON.stringify(snap) }).catch(() => {});
   } catch (e) {}
 }
@@ -746,6 +879,7 @@ async function scheduleNative() {
       const ts = new Date(m.at).getTime();
       if (!isNaN(ts) && ts > Date.now() + 1000) list.push({ id: 2000000 + (hid('m' + m.id) % 1000000), title: m.title, body: 'Reminder', schedule: { at: new Date(ts), allowWhileIdle: true } });
     }
+    for (const o of evNotifs(Date.now() + 1000)) list.push({ id: o.id, title: o.title, body: o.body, schedule: { at: new Date(o.at), allowWhileIdle: true } });
     const seen = new Set(); const uniq = list.filter(n => !seen.has(n.id) && seen.add(n.id));
     if (uniq.length) await LN.schedule({ notifications: uniq });
   } catch (e) { console.warn('native schedule failed', e); }
@@ -794,7 +928,10 @@ function resync() { scheduleTriggers(); checkDue(); }
 const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 const buzz = p => { try { if (navigator.vibrate) navigator.vibrate(Math.min(8, Array.isArray(p) ? Math.max(...p) : (p || 6))); } catch (e) {} };
 const PATHS = {
-  today: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>',
+  today: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>',
+  left: '<path d="m15 18-6-6 6-6"/>',
+  right: '<path d="m9 18 6-6-6-6"/>',
   routines: '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
   reminders: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
   settings: '<path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>',
@@ -902,6 +1039,14 @@ async function delReminder(id) {
   await collapse(b && b.closest('.rm'));
   data.reminders = data.reminders.filter(x => x.id !== id); save(); render(); resync();
 }
+async function delEvent(id) {
+  const e = data.events.find(x => x.id === id); if (!e) return;
+  if (!await confirmDlg('Delete ' + (e.title || 'event') + '?', (e.repeat && e.repeat !== 'none' ? 'Every ' + repName(e.repeat).toLowerCase() + ' occurrence' : 'The event') + ' and its notifications will be removed. This cannot be undone.', 'Delete', true)) return;
+  closeSheet(); buzz([10, 40, 18]);
+  await new Promise(x => setTimeout(x, 220));
+  await collapse($('#main').querySelector(`.agi[data-eid="${id}"]`));
+  data.events = data.events.filter(x => x.id !== id); save(); render(); resync();
+}
 
 /* ---------- live Today updates (count ticker, rows, hero) ---------- */
 function countTo(el, to, sfx) {
@@ -958,6 +1103,7 @@ function imgRefs() {
   const s = new Set(), add = v => { if (v) s.add(v); };
   for (const r of data.routines) { add(r.img); (r.steps || []).forEach(x => add(x.img)); }
   for (const m of data.reminders) add(m.img);
+  for (const e of data.events || []) add(e.img);
   if (form) { add(form.img); (form.steps || []).forEach(x => add(x.img)); }
   return s;
 }
@@ -1095,7 +1241,7 @@ function closeViewer() {
 const DAYW = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
 function aiPrompt() {
   const d = new Date();
-  return `Fill this template with my routines and reminders based on what I tell you. Reply with ONLY the JSON.
+  return `Fill this template with my routines, reminders and calendar events based on what I tell you. Reply with ONLY the JSON.
 
 How to fill it in:
 - "routines" repeat every week. "time" is the start time, 24-hour "HH:MM".
@@ -1103,6 +1249,8 @@ How to fill it in:
 - "steps" is the checklist, in order. "minutes" is optional.
 - "emoji" is optional and shows in the notification.
 - "reminders" are one-off. "datetime" is local time, "YYYY-MM-DDTHH:MM".
+- "events" go in the calendar. "date" is "YYYY-MM-DD". "start" and "end" are 24-hour "HH:MM", or use "allDay": true instead.
+- Event "repeat" is "none", "daily", "weekly", "monthly" or "yearly". "remind" is minutes before the start: 5, 15, 30 or 60. "location" and "note" are optional.
 - Use [] for a section I don't need. Leave out anything I didn't mention. Don't include the // comments.
 - Today is ${d.toLocaleDateString('en-US', { weekday: 'long' })} ${dstr(d)}.
 
@@ -1122,10 +1270,14 @@ Template (the // comments only explain each field):
   ],
   "reminders": [
     { "title": "Dentist", "datetime": "2026-12-01T15:00" }
+  ],
+  "events": [
+    { "title": "Lunch with Sam", "date": "2026-12-03", "start": "12:30", "end": "13:30", "location": "Cafe Nero", "remind": 15 },
+    { "title": "Mum's birthday", "date": "2026-12-14", "allDay": true, "repeat": "yearly" }
   ]
 }
 
-My routines and reminders:
+My routines, reminders and events:
 `;
 }
 /* tolerant JSON: fences, surrounding text, comments, trailing commas, smart/single quotes, bare keys, Python literals */
@@ -1275,14 +1427,16 @@ function parseDT(dt, date, time) {
   return { at: null, bad: true };
 }
 function normalizeImport(j) {
-  const warn = [], R = [], M = [];
+  const warn = [], R = [], M = [], E = [];
+  const isEv = x => { const o = lk(x); return o && (o.allday != null || o.end != null || o.endtime != null || o.location != null || o.repeat != null && o.steps == null || o.date != null && o.start != null); };
   const isRem = x => { const o = lk(x); return o && (o.datetime != null || o.date != null || o.title != null && o.steps == null); };
-  if (Array.isArray(j)) j = { routines: j.filter(x => !(x && typeof x === 'object' && isRem(x))), reminders: j.filter(x => x && typeof x === 'object' && isRem(x)) };
-  if (!j || typeof j !== 'object') throw new Error('Expected an object with "routines" and/or "reminders".');
+  const obj = x => x && typeof x === 'object';
+  if (Array.isArray(j)) j = { routines: j.filter(x => !(obj(x) && (isEv(x) || isRem(x)))), reminders: j.filter(x => obj(x) && !isEv(x) && isRem(x)), events: j.filter(x => obj(x) && isEv(x)) };
+  if (!j || typeof j !== 'object') throw new Error('Expected an object with "routines", "reminders" and/or "events".');
   const J = lk(j), arr = v => Array.isArray(v) ? v : v && typeof v === 'object' ? [v] : [];
-  let rs = arr(pick(J, 'routines', 'routine', 'habits', 'schedule')), ms = arr(pick(J, 'reminders', 'reminder', 'todos', 'events', 'tasks'));
-  if (!rs.length && !ms.length && (J.name || J.steps)) rs = [j];
-  if (!rs.length && !ms.length) throw new Error('No routines or reminders found. The JSON needs a "routines" or "reminders" list.');
+  let rs = arr(pick(J, 'routines', 'routine', 'habits', 'schedule')), ms = arr(pick(J, 'reminders', 'reminder', 'todos', 'tasks')), es = arr(pick(J, 'events', 'event', 'calendar', 'appointments', 'meetings'));
+  if (!rs.length && !ms.length && !es.length && (J.name || J.steps)) rs = [j];
+  if (!rs.length && !ms.length && !es.length) throw new Error('Nothing found. The JSON needs a "routines", "reminders" or "events" list.');
   rs.forEach((x, n) => {
     if (typeof x === 'string') x = { name: x };
     if (!x || typeof x !== 'object') { warn.push(`Routine ${n + 1} skipped: not readable.`); return; }
@@ -1312,13 +1466,45 @@ function normalizeImport(j) {
     if (new Date(at).getTime() < Date.now()) warn.push(`${title}: that time is in the past, so it will show as overdue.`);
     M.push({ title: title.slice(0, 120), at });
   });
+  const isDT = v => /^\s*\d{4}-\d{1,2}-\d{1,2}[T\s,]+\S/.test(String(v == null ? '' : v));
+  es.forEach((x, n) => {
+    if (typeof x === 'string') x = { title: x };
+    if (!x || typeof x !== 'object') { warn.push(`Event ${n + 1} skipped: not readable.`); return; }
+    const o = lk(x), title = str(pick(o, 'title', 'name', 'text', 'what', 'event', 'summary', 'label'));
+    if (!title) { warn.push(`Event ${n + 1} skipped: it has no title.`); return; }
+    const sv = pick(o, 'start', 'starttime', 'from', 'time', 'at', 'begins'), dv = pick(o, 'date', 'day', 'on'), dtv = pick(o, 'datetime', 'when');
+    const p = parseDT(dtv != null ? dtv : dv != null ? dv : isDT(sv) ? sv : null);
+    let date = p.at ? p.at.slice(0, 10) : null, start = null, end = null;
+    if (p.at && !p.noTime && (dtv != null || dv == null && isDT(sv) || dv != null && isDT(dv))) start = p.at.slice(11, 16);
+    const allWord = v => /^\s*(all[\s-]?day|whole[\s-]?day|full[\s-]?day)\s*$/i.test(String(v == null ? '' : v));
+    if (!start && sv != null && !isDT(sv) && !allWord(sv)) { start = parseTime(sv); if (!start) warn.push(`${title}: couldn’t read the start “${str(sv)}”, made it all-day.`); }
+    else if (!start && isDT(sv)) { const q = parseDT(sv); if (q.at && !q.noTime) start = q.at.slice(11, 16); }
+    const ev = pick(o, 'end', 'endtime', 'to', 'until', 'finish', 'ends');
+    if (start && ev != null) { if (isDT(ev)) { const q = parseDT(ev); end = q.at && !q.noTime ? q.at.slice(11, 16) : null; } else end = parseTime(ev); }
+    if (start && !end) { const du = parseMins(pick(o, 'duration', 'minutes', 'mins', 'length')); if (du) { const t = Math.min(1439, mins(start) + du); end = pad(Math.floor(t / 60)) + ':' + pad(t % 60); } }
+    if (end && start && mins(end) <= mins(start)) { warn.push(`${title}: the end isn’t after the start, so it was dropped.`); end = null; }
+    const av = pick(o, 'allday', 'wholeday', 'fullday');
+    const allDay = !start || av === true || /^(true|yes|y|1)$/i.test(str(av)) || allWord(sv);
+    if (!date) { const t = new Date(Date.now() + 86400000); date = dstr(t); warn.push(`${title}: ${p.bad ? 'couldn’t read the date' : 'no date given'}, set to tomorrow.`); }
+    const rv = str(pick(o, 'repeat', 'repeats', 'recurrence', 'recurring', 'frequency', 'every')).toLowerCase();
+    const repeat = !rv || /^(no|none|never|once|false|0|one[\s-]?off)$/.test(rv) ? 'none' : /dai|day/.test(rv) ? 'daily' : /week/.test(rv) ? 'weekly' : /month/.test(rv) ? 'monthly' : /year|annual/.test(rv) ? 'yearly' : 'none';
+    if (rv && repeat === 'none' && !/^(no|none|never|once|false|0|one[\s-]?off)$/.test(rv)) warn.push(`${title}: couldn’t read the repeat “${rv}”, so it happens once.`);
+    const mv = pick(o, 'remind', 'reminder', 'remindbefore', 'remindminutes', 'alert', 'notify', 'notification');
+    let remind = mv === true || /^(true|yes)$/i.test(str(mv)) ? 15 : parseMins(mv);
+    if (remind) remind = [5, 15, 30, 60].reduce((a, b) => Math.abs(b - remind) < Math.abs(a - remind) ? b : a);
+    if (allDay) remind = 0;
+    E.push({ title: title.slice(0, 120), date, allDay, start: allDay ? '' : start, end: allDay ? '' : end || '', repeat, remind,
+      note: str(pick(o, 'note', 'notes', 'description', 'details', 'desc')).slice(0, 1000), loc: str(pick(o, 'location', 'place', 'where', 'venue', 'address')).slice(0, 160) });
+  });
   // duplicates (against existing data and within the import)
   const rKey = r => [r.name.trim().toLowerCase(), r.time, [...r.days].sort().join(','), r.steps.map(s => s.text.trim().toLowerCase() + '·' + (+s.mins || 0)).join('|')].join('#');
   const mKey = m => m.title.trim().toLowerCase() + '#' + m.at;
   const rs0 = new Set(data.routines.map(rKey)), ms0 = new Set(data.reminders.map(mKey));
   R.forEach(r => { const k = rKey(r); r.dup = rs0.has(k); rs0.add(k); });
   M.forEach(m => { const k = mKey(m); m.dup = ms0.has(k); ms0.add(k); });
-  return { R, M, warn };
+  const eKey = e => e.title.trim().toLowerCase() + '#' + e.date + '#' + (e.allDay ? '' : e.start), es0 = new Set((data.events || []).map(eKey));
+  E.forEach(e => { const k = eKey(e); e.dup = es0.has(k); es0.add(k); });
+  return { R, M, E, warn };
 }
 const daysLabel = d => d.length === 7 ? 'Daily' : d.join() === '1,2,3,4,5' ? 'Weekdays' : d.join() === '0,6' ? 'Weekends' : ORDER.filter(x => d.includes(x)).map(x => DAYN[x]).join(' ');
 let ai = null;
@@ -1330,7 +1516,7 @@ function aiSheet() {
   <pre class="code" id="ai-tpl">${esc(aiPrompt())}</pre>
   <button class="btn pri full" data-aicopy="Copy prompt">${ic('copy', 18)}<span>Copy prompt</span></button>
   <div class="ais"><span class="ain">02</span><span>Paste the reply</span></div>
-  <textarea id="ai-in" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder='{ "routines": [ … ], "reminders": [ … ] }'></textarea>
+  <textarea id="ai-in" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder='{ "routines": [ … ], "reminders": [ … ], "events": [ … ] }'></textarea>
   <button class="btn full" id="aipaste" style="margin-top:8px">${ic('paste', 18)}Paste from clipboard</button>
   <div id="ai-out"></div>
   <div class="acts"><button class="btn grow" data-close>Cancel</button><button class="btn pri grow" id="aiadd" disabled>${ic('plus', 18)}Add all</button></div>`);
@@ -1343,29 +1529,32 @@ function aiParse() {
   try { res = normalizeImport(parseLoose(txt)); }
   catch (e) { ta.classList.add('bad'); out.innerHTML = `<div class="aierr pin">${ic('alert', 18)}<div><b>Couldn’t read that</b>${esc(e.message || e)}</div></div>`; return; }
   ai.res = res;
-  const nr = res.R.filter(r => !r.dup).length, nm = res.M.filter(m => !m.dup).length, dups = res.R.length + res.M.length - nr - nm;
+  const nr = res.R.filter(r => !r.dup).length, nm = res.M.filter(m => !m.dup).length, ne = res.E.filter(e => !e.dup).length, dups = res.R.length + res.M.length + res.E.length - nr - nm - ne;
   const pl = (n, w) => `<span data-n="${n}">${n}</span> ${w}${n === 1 ? '' : 's'}`;
   let i = 0;
-  out.innerHTML = `<div class="aipv pin"><div class="aisum">${pl(nr, 'routine')}, ${pl(nm, 'reminder')}</div>
-    <div class="mono mut aisub">${nr + nm ? 'Ready to add' : 'Nothing new to add'}${dups ? ` · ${dups} duplicate${dups === 1 ? '' : 's'} skipped` : ''}</div>
+  out.innerHTML = `<div class="aipv pin"><div class="aisum">${pl(nr, 'routine')}, ${pl(nm, 'reminder')}${res.E.length ? ', ' + pl(ne, 'event') : ''}</div>
+    <div class="mono mut aisub">${nr + nm + ne ? 'Ready to add' : 'Nothing new to add'}${dups ? ` · ${dups} duplicate${dups === 1 ? '' : 's'} skipped` : ''}</div>
     <div style="margin-top:8px">${res.R.map(r => `<div class="pi ${r.dup ? 'dup' : ''}" style="--i:${i++}"><span class="mono pik">${r.time}</span><span class="grow"><span class="nm">${esc(((r.emoji ? r.emoji + ' ' : '') + r.name))}${r.dup ? '<em class="tag gh">Skip</em>' : ''}</span>
       <span class="days">${ORDER.map(d => `<i class="${r.days.includes(d) ? 'on' : ''}">${DAYN[d][0]}</i>`).join('')}</span><span class="mono mut mt">${esc(daysLabel(r.days))} · ${r.steps.length} step${r.steps.length === 1 ? '' : 's'}${r.steps.length ? ' · ' + r.steps.reduce((a, s) => a + s.mins, 0) + ' min' : ''}</span></span></div>`).join('')}
-    ${res.M.map(m => { const d = new Date(m.at); return `<div class="pi ${m.dup ? 'dup' : ''}" style="--i:${i++}"><span class="mono pik">${hhmm(d)}</span><span class="grow"><span class="nm">${esc(m.title)}${m.dup ? '<em class="tag gh">Skip</em>' : ''}</span><span class="mono mut mt">Reminder · ${esc(d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short', year: d.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined }))}</span></span></div>`; }).join('')}</div>
+    ${res.M.map(m => { const d = new Date(m.at); return `<div class="pi ${m.dup ? 'dup' : ''}" style="--i:${i++}"><span class="mono pik">${hhmm(d)}</span><span class="grow"><span class="nm">${esc(m.title)}${m.dup ? '<em class="tag gh">Skip</em>' : ''}</span><span class="mono mut mt">Reminder · ${esc(d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short', year: d.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined }))}</span></span></div>`; }).join('')}
+    ${res.E.map(e => { const d = pd(e.date); return `<div class="pi ${e.dup ? 'dup' : ''}" style="--i:${i++}"><span class="mono pik">${e.allDay ? 'All day' : e.start}</span><span class="grow"><span class="nm"><i class="evm"></i>${esc(e.title)}${e.dup ? '<em class="tag gh">Skip</em>' : ''}</span><span class="mono mut mt">Event · ${esc(d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short', year: d.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined }))}${e.end ? ' · until ' + e.end : ''}${e.repeat !== 'none' ? ' · ' + repName(e.repeat) : ''}${e.loc ? ' · ' + esc(e.loc) : ''}</span></span></div>`; }).join('')}</div>
     ${res.warn.length ? `<div class="aiw"><div class="mono">Warnings · ${res.warn.length}</div><ul>${res.warn.map(w => `<li>${esc(w)}</li>`).join('')}</ul></div>` : ''}</div>`;
   const prev = countFrom0; countFrom0 = !RM; tickers(out); countFrom0 = prev;
-  add.disabled = !(nr + nm);
+  add.disabled = !(nr + nm + ne);
 }
 function aiCommit() {
   if (!ai || !ai.res) return;
-  const ids = new Set([...data.routines.map(r => r.id), ...data.reminders.map(m => m.id)]);
+  const ids = new Set([...data.routines.map(r => r.id), ...data.reminders.map(m => m.id), ...data.events.map(e => e.id)]);
   const nid = () => { let x; do x = uid(); while (ids.has(x)); ids.add(x); return x; };
-  const R = ai.res.R.filter(r => !r.dup), M = ai.res.M.filter(m => !m.dup), skipped = ai.res.R.length + ai.res.M.length - R.length - M.length;
+  const R = ai.res.R.filter(r => !r.dup), M = ai.res.M.filter(m => !m.dup), E = ai.res.E.filter(e => !e.dup), skipped = ai.res.R.length + ai.res.M.length + ai.res.E.length - R.length - M.length - E.length;
+  E.forEach(e => data.events.push({ id: nid(), title: e.title, date: e.date, allDay: e.allDay, start: e.start, end: e.end, repeat: e.repeat, remind: e.remind, note: e.note, loc: e.loc }));
   R.forEach((r, i) => data.routines.push({ id: nid(), name: r.name, emoji: r.emoji, color: COLORS[(data.routines.length + i) % COLORS.length], time: r.time, days: r.days.slice(), steps: r.steps.map(s => ({ id: nid(), text: s.text, mins: s.mins })) }));
   M.forEach(m => data.reminders.push({ id: nid(), title: m.title, at: m.at, done: false }));
-  save(); resync(); ai = { res: null, after: R.length ? 'routines' : 'reminders' };
+  save(); resync(); ai = { res: null, after: R.length ? 'routines' : M.length ? 'reminders' : 'calendar' };
+  if (!R.length && !M.length && E.length) { const d = pd(E[0].date); CAL.y = d.getFullYear(); CAL.m = d.getMonth(); CAL.sel = E[0].date; }
   const pl = (n, w) => `<span data-n="${n}">${n}</span> ${w}${n === 1 ? '' : 's'}`;
   openSheet(`<div class="okfx"><div class="okc"><i></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-    <div class="ok-t bl">${words('All added')}</div><div class="mono mut">${pl(R.length, 'routine')} · ${pl(M.length, 'reminder')}${skipped ? ` · ${skipped} skipped` : ''}</div></div>
+    <div class="ok-t bl">${words('All added')}</div><div class="mono mut">${pl(R.length, 'routine')} · ${pl(M.length, 'reminder')}${E.length ? ' · ' + pl(E.length, 'event') : ''}${skipped ? ` · ${skipped} skipped` : ''}</div></div>
     <button class="btn pri full" data-close>Done</button>`);
   const s = $('#sheet'); s.classList.add('stg'); countFrom0 = !RM; tickers(s); countFrom0 = false;
   buzz([12, 60, 30]);
@@ -1403,7 +1592,7 @@ async function exportData() {
 
 /* ---------- UI ---------- */
 let tab = 'today';
-const tabs = [['today','Today'],['routines','Routines'],['reminders','Reminders'],['settings','Settings']];
+const tabs = [['today','Today'],['calendar','Calendar'],['routines','Routines'],['reminders','Reminders'],['settings','Settings']];
 function buildNav() {
   $('#nav').innerHTML = '<i class="ind"></i>' + tabs.map(t => `<button data-tab="${t[0]}" aria-label="${t[1]}">${ic(t[0])}<span>${t[1]}</span></button>`).join('');
   $('#fab').innerHTML = ic('plus', 22);
@@ -1414,11 +1603,11 @@ function updateNav() {
 }
 function render(anim) {
   updateNav();
-  $('#fab').classList.toggle('show', tab === 'routines' || tab === 'reminders');
+  $('#fab').classList.toggle('show', tab === 'routines' || tab === 'reminders' || tab === 'calendar');
   const m = $('#main');
   m.classList.toggle('stg', !!anim && !RM);
   rollFrom0 = countFrom0 = !!anim && !RM;
-  m.innerHTML = tab === 'today' ? viewToday() : tab === 'routines' ? viewRoutines() : tab === 'reminders' ? viewReminders() : viewSettings();
+  m.innerHTML = tab === 'today' ? viewToday() : tab === 'calendar' ? viewCalendar() : tab === 'routines' ? viewRoutines() : tab === 'reminders' ? viewReminders() : viewSettings();
   rollFrom0 = false;
   m.querySelectorAll('.r').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 12)));
   tickers(m); countFrom0 = false; hydrate(m);
@@ -1446,7 +1635,7 @@ function vtOff(s, e, c, n) { const f = e > s ? Math.max(0, Math.min(1, (e - (n |
 let TL = null;
 function tlLayout(list, nowM) {
   const K = 1.5, MINH = 80, GAPMIN = 12, GAPMAX = 60, seg = [], blocks = [], gaps = [];
-  const it = list.map(r => ({ r, s: mins(r.time), e: mins(r.time) + routineDur(r) }));
+  const it = list;   // [{ r | ev, s, e }] sorted by start (minutes)
   const m0 = Math.max(0, Math.min(it[0].s, nowM) - 20), m1 = Math.min(1440, Math.max(Math.max(...it.map(x => x.e)), nowM) + 20);
   let c = m0, y = 0;
   const gap = (to, last) => {
@@ -1458,7 +1647,7 @@ function tlLayout(list, nowM) {
   for (const x of it) {
     gap(x.s);
     const bh = Math.max(MINH, (x.e - x.s) * K), e = Math.max(x.e, c + 1);
-    seg.push([c, e, y, y + bh]); blocks.push({ r: x.r, y, h: bh }); y += bh; c = e;
+    seg.push([c, e, y, y + bh]); blocks.push({ r: x.r, ev: x.ev, y, h: bh }); y += bh; c = e;
   }
   gap(m1, true);
   const L = { seg, blocks, gaps, h: Math.round(y), hours: [] };
@@ -1482,11 +1671,21 @@ function viewToday() {
   const fin = list.filter(r => { const [a, b] = progress(r); return b && a === b; }).length;
   let h = `<header class="top r"><span class="mono">${esc(wd)} · ${esc(md)}</span><span class="mono mut">${list.length ? `<span data-n="${fin}" data-fin class="tk">${fin}</span> of ${list.length} done` : 'Rest day'}</span></header>
   <div class="clock r"><span class="hm roll" data-clock="hm" ${rollInit('hm', hhmm(now))}</span><span class="sec roll" data-clock="s" ${rollInit('s', pad(now.getSeconds()))}</span></div>`;
-  const nextLine = () => {
-    const same = nn.nxtAt.toDateString() === now.toDateString();
-    return `<div class="nx r"><span class="mono mut">Next</span><span class="nxn grow">${esc(nn.nxt.name)}</span><span class="mono mut">${same ? '' : DAYN[nn.nxtAt.getDay()] + ' '}${nn.nxt.time}</span><span class="mono dim" data-cd="${nn.nxtAt.getTime()}"></span></div>`;
-  };
-  if (nn.cur) {
+  const en = evNowNext(now);
+  // soonest upcoming thing: the next routine or the next timed event, whichever starts first
+  const ur = nn.nxt ? { name: nn.nxt.name, at: nn.nxtAt, sub: nn.nxt.steps.length + ' steps' } : null;
+  const ue = en.nxt ? { name: en.nxt.e.title, at: en.nxt.at, ev: en.nxt.e, sub: 'Event' + (en.nxt.e.loc ? ' · ' + en.nxt.e.loc : '') } : null;
+  const up = ur && ue ? (ue.at < ur.at ? ue : ur) : ur || ue;
+  const dayPre = d => d.toDateString() === now.toDateString() ? '' : DAYN[d.getDay()] + ' ';
+  const nextLine = () => `<div class="nx r"><span class="mono mut">Next</span><span class="nxn grow">${up.ev ? '<i class="evm"></i>' : ''}${esc(up.name)}</span><span class="mono mut">${dayPre(up.at)}${hhmm(up.at)}</span><span class="mono dim" data-cd="${up.at.getTime()}"></span></div>`;
+  if (!nn.cur && en.cur) {
+    const { e, s, en: ee } = en.cur;
+    h += `<section class="hero fx r"><div class="lab"><i class="pulse"></i>Event · until ${hhmm(new Date(ee))}</div>
+      <div class="title bl">${words(e.title)}</div><div class="mono mut">${esc(evWhen(e) + (e.loc ? ' · ' + e.loc : ''))}</div>
+      ${vtRing(s, ee, `<div class="cd roll" data-cd="${ee}" ${rollInit('cd', fmtCD((ee - now.getTime()) / 1000))}</div><div class="mono cdl">Remaining</div>`)}
+      <div class="ctas"><button class="cta" data-eedit="${e.id}"><span>Details</span>${ic('arrow', 18)}</button></div></section>`;
+    if (up) h += nextLine();
+  } else if (nn.cur) {
     const r = nn.cur, [a, b] = progress(r);
     const pc = b ? Math.round(a / b * 100) : 0, ce = nn.curEnd.getTime();
     const cs = ce - routineDur(r) * 60000;
@@ -1494,24 +1693,31 @@ function viewToday() {
       <div class="hrow"><div class="grow"><div class="title bl">${words(r.name)}</div><div class="mono mut" data-hsteps>${stepsLine(a, b)}</div></div><div class="ringw">${ring(a, b, 56, 2.5)}<span class="rt tk" data-n="${pc}" data-sfx="%">${pc}%</span></div></div>
       ${vtRing(cs, ce, `<div class="cd roll" data-cd="${ce}" ${rollInit('cd', fmtCD((ce - now.getTime()) / 1000))}</div><div class="mono cdl">Remaining</div>`)}
       <div class="ctas"><button class="cta" data-focus="${r.id}"><span>Start focus</span>${ic('arrow', 18)}</button><button class="cta2" data-open="${r.id}" aria-label="Open checklist">${ic('list', 20)}</button></div></section>`;
-    if (nn.nxt) h += nextLine();
-  } else if (nn.nxt) {
-    const same = nn.nxtAt.toDateString() === now.toDateString();
-    const na = nn.nxtAt.getTime();
-    h += `<section class="hero idle fx r"><div class="lab"><i class="pulse idle"></i>Up next · ${same ? '' : DAYN[nn.nxtAt.getDay()] + ' '}${nn.nxt.time}</div>
-      <div class="title bl">${words(nn.nxt.name)}</div>
-      <div class="cdw"><div class="cd roll" data-cd="${na}" ${rollInit('cd', fmtCD((na - now.getTime()) / 1000))}</div></div><div class="mono mut cdl">Until start · ${nn.nxt.steps.length} steps</div></section>`;
+    if (up) h += nextLine();
+  } else if (up) {
+    const na = up.at.getTime();
+    h += `<section class="hero idle fx r"><div class="lab"><i class="pulse idle"></i>Up next · ${dayPre(up.at)}${hhmm(up.at)}</div>
+      <div class="title bl">${words(up.name)}</div>
+      <div class="cdw"><div class="cd roll" data-cd="${na}" ${rollInit('cd', fmtCD((na - now.getTime()) / 1000))}</div></div><div class="mono mut cdl">Until start · ${esc(up.sub)}</div></section>`;
   } else h += `<section class="hero idle fx r"><div class="lab">Clear</div><div class="title dim bl">${words('Nothing scheduled')}</div></section>`;
-  h += `<div class="sh r"><span>Timeline</span><i></i><span>${list.length}</span></div>`;
-  if (!list.length) h += data.routines.length
+  const evToday = eventsOn(now), evAll = evToday.filter(e => !evTimed(e));
+  const items = [...list.map(r => ({ r, s: mins(r.time), e: mins(r.time) + routineDur(r) })), ...evToday.filter(evTimed).map(ev => ({ ev, s: mins(ev.start), e: evEndM(ev) }))].sort((a, b) => a.s - b.s || (a.ev ? -1 : 1));
+  h += `<div class="sh r"><span>Timeline</span><i></i><span>${items.length + evAll.length}</span></div>`;
+  if (evAll.length) h += `<div class="adw r"><span class="mono">All day</span>${evAll.map(e => `<button class="adc" data-eedit="${e.id}"><i class="evm"></i>${esc(e.title)}</button>`).join('')}</div>`;
+  if (!items.length) h += data.routines.length
     ? `<div class="empty r"><span class="eic">${ic('today', 26)}</span><b>Rest day</b><span class="mono mut">Nothing scheduled today</span></div>`
     : `<div class="empty r"><span class="eic">${ic('routines', 26)}</span><b>No routines yet</b><span class="mono mut">Create a routine to fill your day</span><button class="btn pri" data-new="rt">${ic('plus', 18)}New routine</button></div>`;
   else {
-    const L = tlLayout(list, nowM + now.getSeconds() / 60); TL = L;
+    const L = tlLayout(items, nowM + now.getSeconds() / 60); TL = L;
     let g = `<div class="tl r" style="height:${L.h}px;--ny:${L.ny}px"><div class="rail"><i></i></div>`;
     g += L.hours.map(x => `<span class="hl" style="top:${x.y}px">${pad(x.h)}:00</span>`).join('');
     g += L.gaps.map(x => `<div class="gap" style="top:${x.y}px;height:${x.h}px">${x.m >= 60 ? Math.floor(x.m / 60) + 'h' + (x.m % 60 ? ' ' + x.m % 60 + 'm' : '') : x.m + 'm'} free</div>`).join('');
-    g += L.blocks.map(({ r, y, h: bh }) => {
+    g += L.blocks.map(({ r, ev, y, h: bh }) => {
+      if (ev) {
+        const s = mins(ev.start), e = evEndM(ev), isNow = s <= nowM && nowM < e, past = e <= nowM, st = isNow ? 'now' : past ? 'past' : '';
+        return `<span class="gl ${st}" style="top:${y}px">${ev.start}</span><button class="tev fx r ${st}" data-eedit="${ev.id}" style="top:${y}px;height:${bh}px">
+        <span class="grow"><span class="nm"><i class="evm"></i>${esc(ev.title)}${isNow ? '<em class="tag gh">Now</em>' : ''}</span><span class="mono mut mt">${esc(evWhen(ev) + (ev.loc ? ' · ' + ev.loc : ''))}</span></span>${thumb(ev.img, ev.title)}</button>`;
+      }
       const [a, b] = progress(r), isNow = nn.cur && nn.cur.id === r.id, f = b && a === b, past = !isNow && mins(r.time) + routineDur(r) <= nowM;
       const st = isNow ? 'now' : past ? 'past' : '';
       return `<span class="gl ${st}" style="top:${y}px">${r.time}</span><div class="tr fx r ${isNow ? 'now' : ''} ${f ? 'fin' : ''} ${past && !f ? 'past' : ''}" data-rid="${r.id}" style="top:${y}px;height:${bh}px"><button class="trb" data-open="${r.id}">
@@ -1519,8 +1725,9 @@ function viewToday() {
       <button class="tdone ${f ? 'on' : ''}" data-rall="${r.id}" aria-label="${f ? 'Mark not done' : 'Mark done'}"><span class="ringw">${ring(a, b, 28, 2)}</span><i class="tfill"></i>${CHECK}</button></div>`;
     }).join('');
     h += g + `<div class="nl" data-nl><b>${hhmm(now)}</b></div></div>`;
-    if (fin === list.length) h += `<p class="calm r">That’s the day. Rest well.</p>`;
+    if (list.length && fin === list.length) h += `<p class="calm r">That’s the day. Rest well.</p>`;
   }
+  if (evToday.length) h += `<div class="sh r"><span>Calendar</span><i></i><span>${evToday.length}</span></div><div class="ag r">${evToday.map((e, i) => agItem({ e, s: evTimed(e) ? mins(e.start) : -1, en: evTimed(e) ? evEndM(e) : 1440 }, true, nowM, i)).join('')}</div>`;
   const rem = data.reminders.filter(r => !r.done && dstr(new Date(r.at)) === dstr(now)).sort((a, b) => a.at.localeCompare(b.at));
   if (rem.length) h += `<div class="sh r"><span>Reminders</span><i></i><span>${rem.length}</span></div>` + rem.map(remCard).join('');
   return h;
@@ -1545,6 +1752,156 @@ function viewReminders() {
   const open = l.filter(x => !x.done).length;
   return `<header class="ph r"><h1 class="bl">${chars('Reminders')}</h1><sup data-n="${open}">${open}</sup></header>` + (l.length ? l.map(remCard).join('') : `<div class="empty r"><span class="eic">${ic('reminders', 26)}</span><b>No reminders</b><span class="mono mut">One-off reminders appear here</span><button class="btn pri" data-new="rem">${ic('plus', 18)}New reminder</button></div>`);
 }
+/* ---------- calendar: month grid (swipe to change month), day agenda ---------- */
+const CAL = { y: null, m: null, sel: null, busy: false };
+const CRTK = 'routines-cal-rt-v1';
+let calRt = (() => { try { return localStorage.getItem(CRTK) !== '0'; } catch (e) { return true; } })();
+const monName = (y, m) => new Date(y, m, 1).toLocaleDateString(undefined, { month: 'long' });
+function calSub(y, m) {
+  let n = 0; const dn = new Date(y, m + 1, 0).getDate();
+  for (let d = 1; d <= dn; d++) n += eventsOn(new Date(y, m, d)).length;
+  return y + '<span class="cev"> · ' + n + ' event' + (n === 1 ? '' : 's') + '</span>';
+}
+function gridHTML(y, m) {
+  const off = (new Date(y, m, 1).getDay() + 6) % 7, td = dstr(new Date()); let h = '';
+  for (let i = 0; i < 42; i++) {
+    const D = new Date(y, m, 1 - off + i), k = dstr(D), out = D.getMonth() !== m;
+    const ne = Math.min(3, eventsOn(D).length), rt = calRt && data.routines.some(r => r.days.includes(D.getDay()));
+    const cls = (out ? ' out' : k < td ? ' past' : '') + (k === td ? ' tod' : '') + (k === CAL.sel ? ' sel' : '');
+    h += `<button class="cday${cls}" data-cday="${k}" style="--i:${Math.floor(i / 7) + i % 7}" aria-label="${esc(D.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' }))}"><b>${D.getDate()}</b><span class="cdots">${'<i></i>'.repeat(ne)}${rt ? '<i class="rt"></i>' : ''}</span></button>`;
+  }
+  return h;
+}
+function dayItems(D) {
+  const out = eventsOn(D).map(e => ({ e, s: evTimed(e) ? mins(e.start) : -1, en: evTimed(e) ? evEndM(e) : 1440 }));
+  for (const r of data.routines) if (r.days.includes(D.getDay())) out.push({ r, s: mins(r.time), en: mins(r.time) + routineDur(r) });
+  return out.sort((a, b) => a.s - b.s || (a.e ? -1 : 1));
+}
+function agItem(x, isToday, nowM, i) {
+  const past = isToday && x.en <= nowM ? ' past' : '';
+  if (x.e) {
+    const e = x.e, meta = [evTimed(e) && e.end ? 'until ' + e.end : '', e.loc, e.repeat && e.repeat !== 'none' ? repName(e.repeat) : ''].filter(Boolean).join(' · ') || 'Event';
+    return `<div class="agi ev${past}" data-eid="${e.id}" style="--i:${i + 1}"><span class="agt${evTimed(e) ? '' : ' ad'}">${evTimed(e) ? e.start : 'All<br>day'}</span><button class="agb fx" data-eedit="${e.id}"><span class="grow"><span class="nm"><i class="evm"></i>${esc(e.title)}</span><span class="mono mut mt">${esc(meta)}</span>${e.note ? `<span class="mono dim mt">${esc(e.note.length > 80 ? e.note.slice(0, 80) + '…' : e.note)}</span>` : ''}</span>${thumb(e.img, e.title)}</button></div>`;
+  }
+  const r = x.r;
+  return `<div class="agi${past}" style="--i:${i + 1}"><span class="agt">${r.time}</span><button class="agb fx" ${isToday ? 'data-open' : 'data-edit'}="${r.id}"><span class="grow"><span class="nm">${esc(r.name)}</span><span class="mono mut mt">Routine · ${r.steps.length} steps · ${routineDur(r)} min</span></span>${thumb(r.img, r.name)}</button></div>`;
+}
+function agendaHTML(k) {
+  const D = pd(k), now = new Date(), isT = k === dstr(now), nowM = now.getHours() * 60 + now.getMinutes(), it = dayItems(D);
+  const lb = isT ? 'Today · ' + D.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) : D.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'short' });
+  return `<div class="sh"><span>${esc(lb)}</span><i></i><span>${it.length}</span></div>` + (it.length
+    ? `<div class="ag">${it.map((x, i) => agItem(x, isT, nowM, i)).join('')}</div>`
+    : `<div class="empty sm" style="--i:1"><b>Nothing planned</b><span class="mono mut">Tap + to add an event</span></div>`);
+}
+function viewCalendar() {
+  const now = new Date();
+  if (CAL.y == null) { CAL.y = now.getFullYear(); CAL.m = now.getMonth(); CAL.sel = dstr(now); }
+  return `<header class="ph cph r"><h1 class="bl" id="cmon">${chars(monName(CAL.y, CAL.m))}</h1><button class="btn sm" data-ctoday>Today</button></header>
+  <div class="cbar r"><span class="mono" id="csub">${calSub(CAL.y, CAL.m)}</span><span class="grow"></span><button class="cpill ${calRt ? 'on' : ''}" data-crt aria-label="Show routines"><i></i>Routines</button><button class="cnb" data-cmove="-1" aria-label="Previous month">${ic('left', 18)}</button><button class="cnb" data-cmove="1" aria-label="Next month">${ic('right', 18)}</button></div>
+  <div class="cwk r">${['M', 'T', 'W', 'T', 'F', 'S', 'S'].map(x => `<span>${x}</span>`).join('')}</div>
+  <div class="cgw"><div class="cgrid" id="cgrid">${gridHTML(CAL.y, CAL.m)}</div></div>
+  <div class="agw" id="agw">${CAL.sel ? agendaHTML(CAL.sel) : ''}</div>`;
+}
+function setAgenda(k) {
+  CAL.sel = k;
+  document.querySelectorAll('#cgrid .cday').forEach(c => c.classList.toggle('sel', c.dataset.cday === k));
+  const w = $('#agw'); if (!w) return;
+  const h0 = w.offsetHeight, E = 'cubic-bezier(.32,.72,0,1)';
+  if (w._a) { w._a.cancel(); w._a = null; }
+  if (!k) {
+    if (RM || !w.animate || !h0) { w.innerHTML = ''; return; }
+    w._a = w.animate([{ height: h0 + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 240, easing: E });
+    w._a.finished.then(() => { if (!CAL.sel) w.innerHTML = ''; }, () => {});
+    w.style.height = '0px'; w._a.finished.then(() => { w.style.height = ''; }, () => {});
+    return;
+  }
+  w.style.height = ''; w.innerHTML = agendaHTML(k); hydrate(w);
+  w.classList.remove('agin'); void w.offsetWidth; if (!RM) w.classList.add('agin');
+  const h1 = w.offsetHeight;
+  if (!RM && w.animate && h0 !== h1) w._a = w.animate([{ height: h0 + 'px' }, { height: h1 + 'px' }], { duration: 280, easing: E });
+}
+function calGo(y, m, sel) {   // slide to another month; sel = day to open (undefined: today if it's in that month)
+  const g = $('#cgrid'); if (!g || CAL.busy) return;
+  const dir = Math.sign((y * 12 + m) - (CAL.y * 12 + CAL.m)), now = new Date();
+  if (sel === undefined) sel = y === now.getFullYear() && m === now.getMonth() ? dstr(now) : null;
+  if (!dir) { g.style.transform = ''; g.style.opacity = ''; setAgenda(sel); return; }
+  CAL.y = y; CAL.m = m; CAL.sel = sel;
+  const head = () => {
+    const h1 = $('#cmon'); if (h1) { h1.innerHTML = chars(monName(y, m)); h1.classList.remove('swapt'); void h1.offsetWidth; if (!RM) h1.classList.add('swapt'); }
+    const s = $('#csub'); if (s) s.innerHTML = calSub(y, m);
+  };
+  if (RM || !g.animate) { g.innerHTML = gridHTML(y, m); g.style.transform = ''; g.style.opacity = ''; head(); setAgenda(sel); return; }
+  CAL.busy = true; buzz(6);
+  const from = g.style.transform || 'translateX(0px)', op = g.style.opacity || '1';
+  g.style.transition = 'none';
+  const out = g.animate([{ transform: from, opacity: op }, { transform: `translateX(${-dir * 56}px)`, opacity: 0 }], { duration: 150, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+  head(); setAgenda(sel);
+  out.finished.then(() => {
+    g.style.transform = ''; g.style.opacity = ''; g.innerHTML = gridHTML(y, m); hydrate(g); out.cancel();
+    const inn = g.animate([{ transform: `translateX(${dir * 56}px)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 240, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    const done = () => { g.style.transition = ''; CAL.busy = false; };
+    inn.finished.then(done, done);
+  }, () => { g.style.transition = ''; CAL.busy = false; });
+}
+const calStep = d => { let m = CAL.m + d, y = CAL.y; if (m < 0) { m = 11; y--; } if (m > 11) { m = 0; y++; } calGo(y, m); };
+/* horizontal swipe on the grid: follows the finger, then slides to the next/previous month */
+(function () {
+  let sw = null;
+  const reset = g => { g.classList.remove('drag'); g.style.transform = ''; g.style.opacity = ''; };
+  document.addEventListener('touchstart', e => {
+    const g = tab === 'calendar' && !sheetOpen() && !CAL.busy && e.target.closest && e.target.closest('#cgrid');
+    sw = g && e.touches.length === 1 ? { g, x0: e.touches[0].clientX, y0: e.touches[0].clientY, t0: performance.now(), h: null, dx: 0 } : null;
+  }, { passive: true });
+  document.addEventListener('touchmove', e => {
+    if (!sw) return;
+    const dx = e.touches[0].clientX - sw.x0, dy = e.touches[0].clientY - sw.y0;
+    if (sw.h == null) { if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return; sw.h = Math.abs(dx) > Math.abs(dy) * 1.2; if (!sw.h) { sw = null; return; } sw.g.classList.add('drag'); }
+    e.preventDefault(); sw.dx = dx;
+    sw.g.style.transform = `translateX(${(dx * .5).toFixed(1)}px)`; sw.g.style.opacity = (1 - Math.min(.55, Math.abs(dx) / 520)).toFixed(3);
+  }, { passive: false });
+  const end = () => {
+    if (!sw) return; const s = sw; sw = null; if (!s.h) return;
+    const v = s.dx / Math.max(1, performance.now() - s.t0);
+    s.g.classList.remove('drag');
+    if (Math.abs(s.dx) > 56 || Math.abs(v) > .45 && Math.abs(s.dx) > 24) calStep(s.dx < 0 ? 1 : -1); else reset(s.g);
+  };
+  document.addEventListener('touchend', end); document.addEventListener('touchcancel', end);
+})();
+/* add / edit sheet */
+function eventForm(id, date) {
+  const ex = data.events.find(x => x.id === id), n = new Date(), sh = Math.min(22, n.getHours() + 1);
+  form = ex ? Object.assign(JSON.parse(JSON.stringify(ex)), { kind: 'ev', isNew: false })
+    : { kind: 'ev', isNew: true, id: uid(), title: '', date: date || dstr(n), allDay: false, start: pad(sh) + ':00', end: pad(sh + 1) + ':00', repeat: 'none', remind: 0, note: '', loc: '' };
+  if (!form.start) { form.start = '09:00'; form.end = '10:00'; }
+  form.end = form.end || ''; form.note = form.note || ''; form.loc = form.loc || ''; form.repeat = form.repeat || 'none';
+  const f = form, RB5 = [0, 5, 15, 30, 60];
+  openSheet(`<div class="mono mut">${f.isNew ? 'New event' : 'Edit event'}</div><div class="sh-title">${esc(f.title) || 'Untitled'}</div>
+  <label for="e-title">Title</label><input type="text" id="e-title" value="${esc(f.title)}" placeholder="Lunch with Sam" autocomplete="off">
+  <label for="e-date">Date</label><input type="date" id="e-date" value="${esc(f.date)}">
+  <button type="button" class="ckrow ${f.allDay ? 'on' : ''}" id="e-all"><span class="box">${CHECK}</span><span class="grow">All day</span><span class="mono mut">no times</span></button>
+  <div class="ecol ${f.allDay ? 'off' : ''}" id="e-times"><div><div class="row"><div class="grow"><label for="e-start">Start</label><input type="time" id="e-start" value="${esc(f.start)}"></div><div class="grow"><label for="e-end">End</label><input type="time" id="e-end" value="${esc(f.end)}"></div></div>
+  <label>Remind me before</label><div class="ch5">${RB5.map(m => `<button type="button" class="chip ${(+f.remind || 0) === m ? 'on' : ''}" data-erem="${m}">${m ? (m === 60 ? '1 h' : m + ' m') : 'At start'}</button>`).join('')}</div></div></div>
+  <label>Repeats</label><div class="ch5">${REP.map(([k, nm]) => `<button type="button" class="chip ${f.repeat === k ? 'on' : ''}" data-erep="${k}">${nm}</button>`).join('')}</div>
+  <label for="e-loc">Location · optional</label><input type="text" id="e-loc" value="${esc(f.loc)}" placeholder="Where" autocomplete="off">
+  <label for="e-note">Note · optional</label><textarea id="e-note" class="ent" placeholder="Anything to bring or remember">${esc(f.note)}</textarea>
+  <label>Photo · optional</label>${photoSlot('e', f.img)}
+  <div class="acts">${f.isNew ? '' : '<button class="btn dan" data-dele>Delete</button>'}<button class="btn grow" data-close>Cancel</button><button class="btn pri grow" data-savee>Save</button></div>`);
+}
+function syncEventForm() {
+  if (!form || form.kind !== 'ev') return;
+  const g = i => document.getElementById(i);
+  form.title = g('e-title').value; form.date = g('e-date').value; form.start = g('e-start').value; form.end = g('e-end').value; form.loc = g('e-loc').value; form.note = g('e-note').value;
+}
+function saveEvent() {
+  syncEventForm(); const f = form;
+  if (!f.title.trim()) { $('#e-title').focus(); return; }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(f.date)) { $('#e-date').focus(); return; }
+  const timed = !f.allDay && /^\d{2}:\d{2}$/.test(f.start);
+  const o = { id: f.id, title: f.title.trim().slice(0, 120), date: f.date, allDay: !timed, start: timed ? f.start : '', end: timed && f.end && mins(f.end) > mins(f.start) ? f.end : '', repeat: f.repeat, remind: timed ? +f.remind || 0 : 0, note: f.note.trim(), loc: f.loc.trim(), img: f.img || undefined };
+  const i = data.events.findIndex(x => x.id === o.id); i < 0 ? data.events.push(o) : data.events[i] = o;
+  if (tab === 'calendar') { const d = pd(o.date); CAL.y = d.getFullYear(); CAL.m = d.getMonth(); CAL.sel = o.date; }
+  save(); closeSheet(); render(); resync(); buzz(8);
+}
 function glyphSection() {   // Nothing phones only (Build.MANUFACTURER)
   if (!DEV || !DEV.nothing) return '';
   return `<section class="set r"><div class="k"><span class="mono">Glyph</span><span class="mono mut">${esc(DEV.model || 'Nothing')}</span></div>
@@ -1561,7 +1918,7 @@ function viewSettings() {
   <p class="note" style="margin:12px 0 0">${themePref === 'system' ? 'Follows the phone\u2019s dark mode.' : 'Always ' + themePref + '.'} The home-screen widgets use the same theme.</p></section>
   <section class="set r"><div class="k"><span class="mono">Notifications</span><span class="stat ${p === 'granted' ? 'ok' : ''}">${esc(p)}</span></div>
   <p class="note">${isNative
-    ? (p === 'granted' ? 'Routines and reminders are scheduled on this device and arrive even when the app is closed.' : 'Allow notifications to get a nudge when each routine starts.')
+    ? (p === 'granted' ? 'Routines, reminders and events are scheduled on this device and arrive even when the app is closed.' : 'Allow notifications to get a nudge when each routine starts.')
     : (p === 'granted' ? (hasTriggers() ? 'Scheduled in the background. ' : 'Checked while the app is open. ') : '') + 'Android may delay or skip notifications while the app is fully closed, especially with battery saver on. ' + (hasTriggers() ? '' : 'Scheduled notifications are not supported here, so reminders fire reliably only while the app is open (missed ones fire when you come back).')}</p>
   ${p !== 'granted' ? `<button class="btn pri full" id="perm" ${p === 'denied' || p === 'unsupported' ? 'disabled' : ''}>${ic('reminders', 18)}Enable notifications</button>` : `<button class="btn full" id="testn">${ic('reminders', 18)}Send test notification</button>`}
   ${p === 'denied' ? '<p class="note" style="margin:12px 0 0">Blocked. Enable them in system settings.</p>' : ''}
@@ -1571,7 +1928,7 @@ function viewSettings() {
   <div class="row"><button class="btn grow" id="exp">${ic('down', 18)}Export</button><button class="btn grow" id="imp">${ic('up', 18)}Import</button></div>
   <button class="ckrow ${expPhotos ? 'on' : ''}" id="exph"><span class="box">${CHECK}</span><span class="grow">Include photos in export</span><span class="mono mut">larger file</span></button>
   <div class="k" style="margin:22px 0 10px"><span class="mono">AI template</span></div>
-  <p class="note" style="margin:0 0 12px">Copy this, paste it into any AI with your plans, then use Import with AI.</p>
+  <p class="note" style="margin:0 0 12px">Copy this, paste it into any AI with your plans, then use Import with AI. It can fill in routines, reminders and calendar events.</p>
   <pre class="code" style="max-height:160px;margin-bottom:10px">${esc(aiPrompt())}</pre>
   <button class="btn full" data-aicopy="Copy template">${ic('copy', 18)}<span>Copy template</span></button>
   <button class="btn full" data-ai style="margin-top:10px">${ic('sparkles', 18)}Import with AI</button>
@@ -1748,9 +2105,19 @@ document.addEventListener('click', ev => {
   if (t.id === 'dscrim' || 'dno' in D) { closeDialog(false); return; }
   if ('dok' in D) { closeDialog(true); return; }
   if (t.id === 'scrim' || 'close' in D) { closeSheet(); return; }
-  if (D.new) { D.new === 'rt' ? routineForm() : reminderForm(); return; }
+  if (D.new) { D.new === 'rt' ? routineForm() : D.new === 'ev' ? eventForm(null, CAL.sel) : reminderForm(); return; }
+  if (D.cday) { const k = D.cday, d = pd(k); if (d.getMonth() !== CAL.m || d.getFullYear() !== CAL.y) calGo(d.getFullYear(), d.getMonth(), k); else setAgenda(CAL.sel === k ? null : k); return; }
+  if (D.cmove) { calStep(+D.cmove); return; }
+  if ('ctoday' in D) { const n = new Date(); if (n.getFullYear() === CAL.y && n.getMonth() === CAL.m) setAgenda(dstr(n)); else calGo(n.getFullYear(), n.getMonth(), dstr(n)); return; }
+  if ('crt' in D) { calRt = !calRt; try { localStorage.setItem(CRTK, calRt ? '1' : '0'); } catch (e) {} t.classList.toggle('on', calRt); const g = $('#cgrid'); if (g) g.innerHTML = gridHTML(CAL.y, CAL.m); return; }
+  if (D.eedit) { eventForm(D.eedit); return; }
+  if (t.id === 'e-all') { syncEventForm(); form.allDay = !form.allDay; t.classList.toggle('on', form.allDay); $('#e-times').classList.toggle('off', form.allDay); const bx = t.querySelector('.box'); bx.classList.remove('pop'); if (form.allDay) { void bx.offsetWidth; bx.classList.add('pop'); } return; }
+  if (D.erep) { form.repeat = D.erep; document.querySelectorAll('[data-erep]').forEach(b => b.classList.toggle('on', b === t)); return; }
+  if (D.erem != null) { form.remind = +D.erem; document.querySelectorAll('[data-erem]').forEach(b => b.classList.toggle('on', b === t)); return; }
+  if ('savee' in D) { saveEvent(); return; }
+  if ('dele' in D) { delEvent(form.id); return; }
   if ('ai' in D) { aiSheet(); return; }
-  if (D.pick) { syncRoutineForm(); pickFor = D.pick; const pf = $('#pfile'); pf.value = ''; pf.click(); return; }
+  if (D.pick) { syncRoutineForm(); syncEventForm(); pickFor = D.pick; const pf = $('#pfile'); pf.value = ''; pf.click(); return; }
   if (D.unpick) { syncRoutineForm(); setSlotImg(D.unpick, null); refreshSlot(D.unpick); return; }
   if ('aicopy' in D) { const lb = D.aicopy; copyText(aiPrompt()).then(ok => { if (!t.isConnected) return; if (!ok) { toast('Couldn\u2019t copy. Select the text above instead.'); return; } t.innerHTML = ic('check', 18) + '<span>Copied</span>'; t.classList.remove('pop'); void t.offsetWidth; t.classList.add('pop'); buzz(8); clearTimeout(t._t); t._t = setTimeout(() => { if (t.isConnected) t.innerHTML = ic('copy', 18) + '<span>' + lb + '</span>'; }, 1800); }); return; }
   if (t.id === 'aipaste') { (async () => { const ta = $('#ai-in'); if (!ta) return; const txt = await readClip(); if (txt) { ta.value = txt; aiParse(); const o = $('#ai-out'); if (o && o.scrollIntoView) setTimeout(() => o.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' }), 60); } else { ta.focus(); toast('Long-press the box and tap Paste'); } })(); return; }
@@ -1776,7 +2143,7 @@ document.addEventListener('click', ev => {
     clearTimeout(window._rd); window._rd = setTimeout(() => { if (!sheetOpen() && tab === 'today') render(); }, 1100); return;
   }
   if (D.tab) { go(D.tab); return; }
-  if (t.id === 'fab') { tab === 'routines' ? routineForm() : reminderForm(); return; }
+  if (t.id === 'fab') { tab === 'routines' ? routineForm() : tab === 'calendar' ? eventForm(null, CAL.sel) : reminderForm(); return; }
   if (D.focus) { openFocus(D.focus); return; }
   if ('fclose' in D) { closeFocus(); return; }
   if ('fdone' in D) { if (FS && !FS.end) focusNext(true); return; }
@@ -1823,7 +2190,7 @@ document.addEventListener('click', ev => {
   if (t.id === 'testn') { notify({ key: 'test-' + Date.now(), title: 'Routines', body: 'Notifications are working.' }); return; }
   if (t.id === 'exp') { exportData(); return; }
   if (t.id === 'imp') { $('#file').click(); return; }
-  if (t.id === 'reset') { confirmDlg('Reset everything?', 'All routines, reminders and ticks will be replaced with the three examples.', 'Reset', true).then(ok => { if (ok) { data = seed(); save(); render(true); resync(); } }); return; }
+  if (t.id === 'reset') { confirmDlg('Reset everything?', 'All routines, reminders, events and ticks will be replaced with the three example routines.', 'Reset', true).then(ok => { if (ok) { data = seed(); save(); render(true); resync(); } }); return; }
 });
 document.addEventListener('input', ev => { if (ev.target.id === 'ai-in' && ai) { clearTimeout(ai.t); ai.t = setTimeout(aiParse, 260); } });
 document.addEventListener('change', async ev => {
@@ -1844,11 +2211,11 @@ document.addEventListener('change', async ev => {
     const j = JSON.parse(await f.text());
     if (!j || !Array.isArray(j.routines) || !Array.isArray(j.reminders || [])) throw new Error('bad');
     ev.target.value = '';
-    if (!await confirmDlg('Replace data?', 'Your current routines and reminders will be replaced with the imported file.', 'Import', true)) return;
-    j.reminders = j.reminders || []; j.ticks = j.ticks || { date: '', map: {} };
+    if (!await confirmDlg('Replace data?', 'Your current routines, reminders and events will be replaced with the imported file.', 'Import', true)) return;
+    j.reminders = j.reminders || []; j.events = Array.isArray(j.events) ? j.events.filter(e => e && e.id && e.title && e.date) : []; j.ticks = j.ticks || { date: '', map: {} };
     if (j.images && typeof j.images === 'object') { for (const id in j.images) { const u = j.images[id]; if (typeof u === 'string' && /^data:image\//.test(u)) { try { await IDB.put(id, await (await fetch(u)).blob()); dropURL(id); } catch (e) {} } } }
     delete j.images;
-    data = j; rollDay(); save(); render(); resync(); alertDlg('Imported', j.routines.length + ' routines loaded.');
+    data = j; rollDay(); save(); render(); resync(); alertDlg('Imported', j.routines.length + ' routines' + (j.events.length ? ' and ' + j.events.length + ' events' : '') + ' loaded.');
   } catch (e) { alertDlg('Import failed', 'That file is not valid Routines data.'); }
   ev.target.value = '';
 });
@@ -1932,7 +2299,7 @@ document.addEventListener('visibilitychange', () => {
   hiddenAt = 0;
 });
 buildNav(); load(); render(true);
-setInterval(() => { if (!document.hidden) { tickCD(); if (!sheetOpen() && new Date().getSeconds() === 0) render(); } }, 1000);
+setInterval(() => { if (!document.hidden) { tickCD(); if (!sheetOpen() && tab !== 'calendar' && new Date().getSeconds() === 0) render(); } }, 1000);
 setInterval(checkDue, 15000);                                   // fallback while app is open
 document.addEventListener('visibilitychange', () => { if (!document.hidden) { rollDay(); if (!sheetOpen()) render(); checkDue(); bridgePull(); } });
 window.addEventListener('focus', checkDue);
