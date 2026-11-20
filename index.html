@@ -433,16 +433,18 @@ html[data-theme=light]{--bg:#fff;--fg:#000;--ink:#fff;--sheet:#fbfbfb;--W:0,0,0;
 html[data-theme=light] .sq,html[data-theme=light] [data-color="#ffffff"]{box-shadow:inset 0 0 0 1px var(--line3)}
 html[data-theme=light] .bgfx i{opacity:.55}
 
-/* launch: native splash (logo on black) -> the same logo in the web view -> Today */
-html.booting,html.booting body{background:transparent}
-#boot{position:fixed;inset:0;z-index:99;background:#000;color:#fff;transition:background-color 520ms var(--e),opacity 160ms linear;touch-action:none}
-#boot.soft{background:var(--bg);color:var(--fg)}
-#boot.wait{background:transparent}   /* until first paint the native window background shows the same mark beneath */
-#boot svg{position:absolute;left:var(--bx,50%);top:var(--by,50%);width:var(--bs,176px);height:var(--bs,176px);margin:calc(var(--bs,176px) / -2) 0 0 calc(var(--bs,176px) / -2);overflow:visible;transition:transform 520ms cubic-bezier(.4,0,.2,1),opacity 440ms var(--e)}
+/* launch: plain black system splash (no icon) -> this overlay, logo centred in the visible viewport -> Today */
+html.booting,html.booting body{background:#000}
+#boot{position:fixed;inset:0;z-index:99;display:grid;place-items:center;margin:0;padding:0;background:#000;color:#fff;transition:background-color 560ms cubic-bezier(.2,.8,.2,1);touch-action:none}
+#boot.soft{background:var(--bg);color:var(--fg);opacity:0;transition:background-color 560ms cubic-bezier(.2,.8,.2,1),opacity 200ms linear}
+#boot.soft.in{opacity:1}
+#boot svg{display:block;width:min(42vmin,240px);height:min(42vmin,240px);overflow:visible;will-change:transform,opacity;transition:transform 440ms cubic-bezier(.2,.8,.2,1),opacity 380ms cubic-bezier(.2,.8,.2,1)}
+#boot .ring{transform-box:view-box;transform-origin:512px 512px}
+#boot circle{transform-box:fill-box;transform-origin:center}
+#boot .gs{fill:none;stroke:currentColor;stroke-width:3.4;stroke-linejoin:round;stroke-dasharray:1 1}
 #boot.out{background-color:transparent;pointer-events:none}
-#boot.out svg{transform:scale(.8);opacity:0}
-#boot.rm svg{transition:opacity 240ms linear}#boot.rm.out svg{transform:none}
-#boot path{transform-origin:512px 512px;transform-box:view-box}
+#boot.out svg{transform:scale(1.08);opacity:0}
+#boot.rm,#boot.rm svg{transition:opacity 320ms linear!important}#boot.rm.out svg{transform:none}
 body.boot main{opacity:0;filter:blur(10px)}body.boot #nav,body.boot .fab{opacity:0}
 body.unboot main,body.unboot #nav,body.unboot .fab{transition:opacity 640ms var(--e),filter 760ms var(--e)}
 
@@ -455,9 +457,11 @@ body.unboot main,body.unboot #nav,body.unboot .fab{transition:opacity 640ms var(
 </head>
 <body class="boot">
 <script>
-/* Launch animation. Starts from exactly what the native splash drew (logo, splash icon size, window centre), sweeps the
-   comet arc once round the ring while the dots light up in turn and 日々 refocuses, then hands over to Today.
-   Purely visual: the app script below runs (render, OTA notifyAppReady, sync) without waiting for it. */
+/* Launch animation (cold ~1.9s, resume ~0.9s). The system splash is plain black, so nothing has to be matched: the
+   overlay is black, the mark sits in the dead centre of the viewport (CSS grid, sized in vmin) and never moves.
+   Ring dots appear in turn round the circle, 日々 is written stroke by stroke and then filled, the comet sweeps once
+   and settles, then the mark scales/fades out while Today blur-fades in. Only transform/opacity/stroke-dashoffset
+   change per frame. Purely visual: the app script below (render, OTA notifyAppReady, sync) never waits for it. */
 (function () {
   var N = 40, C = 512, R = 329, SM = 5.8, A0 = 13, A1 = 21.5, H0 = 8, NS = 'http://www.w3.org/2000/svg';
   var GLYPH = 'M481.34 592.88Q480.14 592.88 480.14 591.59V577.34H379.24V591.59Q379.24 592.88 378.04 592.88H373.46Q372.26 592.88 372.26 591.59L372.66 522.86V482.91L372.26 432.31Q372.26 431.12 373.46 431.12L402.25 431.52H457.13L485.92 431.12Q487.11 431.12 487.11 432.31L486.72 478.43V522.86L487.11 591.59Q487.11 592.88 485.92 592.88ZM379.24 505.13V571.47H480.14V505.13ZM379.24 437.59V499.25H480.14V437.59Z M580.52 480.42Q559.7 512.9 528.12 538Q526.93 538.99 526.33 538.99Q526.13 538.99 525.83 538.79Q523.34 537 519.75 536.11Q545.35 516.88 562.78 494.57Q575.14 478.73 586.89 456.82Q594.96 441.68 595.86 431.52Q601.63 433.11 605.02 435.6Q606.21 436.6 606.21 437.59Q606.21 438.59 605.22 439.48Q602.03 442.27 599.54 447.35Q591.97 461.8 584.6 474.15L634.6 473.35Q640.98 473.35 643.37 472.16Q644.07 471.76 644.76 471.76Q645.66 471.76 646.66 472.55Q648.35 473.65 650.54 476.14Q651.74 477.54 651.74 478.63Q651.74 479.43 651.14 480.03Q649.64 481.32 647.25 486.2Q632.91 515.39 605.82 543.88Q617.37 554.83 628.03 569.18Q628.73 570.27 628.73 570.77Q628.73 571.37 628.03 572.06Q626.73 573.36 625.14 574.36Q624.04 574.95 623.65 574.95Q623.05 574.95 622.35 573.86Q601.93 544.27 567.67 523.26Q570.16 520.47 570.75 519.87Q571.55 519.07 572.15 519.07Q572.55 519.07 573.64 519.67Q589.68 529.43 601.13 539.79Q627.33 512.5 642.57 479.23Z';
@@ -480,76 +484,82 @@ body.unboot main,body.unboot #nav,body.unboot .fab{transition:opacity 640ms var(
       (withGlow ? '<g fill="currentColor" filter="url(#' + fid + ')">' + g + '</g>' : '') + '<g fill="currentColor">' + d + '</g><path fill="currentColor" d="' + GLYPH + '"/></svg>';
   }
   window.__logo = mark;
-  var el = null, dots = [], glows = [], txt = null, raf = 0, t0 = 0, w0 = 0, sh = 0, mode = '', ended = true, fcp = false;
-  // Start the clock only once the page is really on screen (first contentful paint), so a slow web-view start-up
-  // never eats the animation; until then the overlay holds the exact splash frame.
+  // stroke order for writing 日々: 日 frame, its two counters, then 々
+  var SUB = GLYPH.split('Z').filter(function (x) { return x.trim(); }).map(function (x) { return x.trim() + 'Z'; });
+  var WR = [[300, 560], [430, 360], [520, 360], [620, 560]];   // [start, duration] ms per sub-path
+  var el = null, ring = null, dots = [], glows = [], fill = null, strokes = [], raf = 0, t0 = 0, w0 = 0, sh = 0, mode = '', ended = true, fcp = false;
   try { new PerformanceObserver(function (l) { l.getEntries().forEach(function (e) { if (e.name === 'first-contentful-paint') fcp = true; }); }).observe({ type: 'paint', buffered: true }); } catch (e) { fcp = true; }
+  function bez(x1, y1, x2, y2) {   // CSS cubic-bezier(x1,y1,x2,y2) as a function of progress
+    return function (x) { if (x <= 0) return 0; if (x >= 1) return 1; var lo = 0, hi = 1, t = x;
+      for (var j = 0; j < 22; j++) { var cx = 3 * x1 * t * (1 - t) * (1 - t) + 3 * x2 * t * t * (1 - t) + t * t * t; if (cx < x) lo = t; else hi = t; t = (lo + hi) / 2; }
+      return 3 * y1 * t * (1 - t) * (1 - t) + 3 * y2 * t * t * (1 - t) + t * t * t; };
+  }
+  var DRAW = bez(.65, 0, .35, 1), OUT = bez(.2, .8, .2, 1);
+  var cl = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   function build(soft) {
     el = document.createElement('div'); el.id = 'boot'; el.setAttribute('aria-hidden', 'true');
-    if (soft) el.className = 'soft'; else if (window.RoutinesNative) el.className = 'wait';
-    var gx = innerWidth / 2, gy = innerHeight / 2;
-    try { var g = window.RoutinesNative ? JSON.parse(RoutinesNative.geom()) : null;
-      if (g && g.rootH > 0 && g.h > 0) { gx = g.rootW / 2 - g.left; gy = g.rootH / 2 - g.top; } } catch (e) {}
-    el.style.setProperty('--bx', gx + 'px'); el.style.setProperty('--by', gy + 'px');
-    el.innerHTML = mark(true, 'bootglow');
-    var gs = el.querySelectorAll('g'); glows = []; dots = [];
-    // rebuild one circle per slot so every slot can animate
-    var gg = gs[0], gd = gs[1]; gg.innerHTML = ''; gd.innerHTML = '';
-    for (var i = 0; i < N; i++) { var p = pos(i), a = document.createElementNS(NS, 'circle'), b = document.createElementNS(NS, 'circle');
-      a.setAttribute('cx', p[0]); a.setAttribute('cy', p[1]); b.setAttribute('cx', p[0]); b.setAttribute('cy', p[1]);
-      gg.appendChild(b); gd.appendChild(a); glows.push(b); dots.push(a); }
-    txt = el.querySelector('path');
+    if (soft) el.className = 'soft';
+    var h = '<svg viewBox="137.5 137.5 749 749"><defs><filter id="bootglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter></defs><g class="ring"><g fill="currentColor" filter="url(#bootglow)">';
+    var dd = '';
+    for (var i = 0; i < N; i++) { var p = pos(i);
+      h += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (A1 * 1.5) + '"/>';
+      dd += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + A1 + '"/>'; }
+    h += '</g><g fill="currentColor">' + dd + '</g></g><path class="gf" fill="currentColor" d="' + GLYPH + '"/>';
+    for (var j = 0; j < SUB.length; j++) h += '<path class="gs" pathLength="1" d="' + SUB[j] + '"/>';
+    el.innerHTML = h + '</svg>';
+    ring = el.querySelector('.ring'); fill = el.querySelector('.gf');
+    var gs = ring.querySelectorAll('g'); glows = [].slice.call(gs[0].children); dots = [].slice.call(gs[1].children);
+    strokes = [].slice.call(el.querySelectorAll('.gs'));
     el.addEventListener('pointerdown', function () { finish(); });
     document.body.appendChild(el);
   }
-  function draw(h, swept, dim) {
-    for (var i = 0; i < N; i++) {
-      var s = slot(i, h), a = ((i - H0) % N + N) % N, lit = (s[3] || swept >= a) ? 1 : 1 - .72 * dim;
-      dots[i].setAttribute('r', Math.max(0, s[0]).toFixed(2)); dots[i].setAttribute('fill-opacity', (s[1] * lit).toFixed(3));
-      glows[i].setAttribute('r', (Math.max(0, s[0]) * 1.5).toFixed(2)); glows[i].setAttribute('fill-opacity', s[2].toFixed(3));
+  function frame(ms) {   // paints the mark at time ms of the current mode's timeline; true once it has settled
+    var soft = mode === 'resume', i, a = 1, s, h, k;
+    h = soft ? H0 + N * DRAW(cl(ms / 600)) : N * 1.2 * DRAW(cl((ms - 150) / 1100));
+    ring.style.transform = 'scale(' + (soft ? 1 : .9 + .1 * OUT(cl(ms / 760))).toFixed(4) + ')';
+    for (i = 0; i < N; i++) {
+      if (!soft) a = OUT(cl((ms - 40 - i * 11) / 320));
+      s = slot(i, h); k = 'scale(' + (a * Math.max(0, s[0]) / A1).toFixed(4) + ')';
+      dots[i].style.transform = k; dots[i].style.opacity = (a * s[1]).toFixed(3);
+      glows[i].style.transform = k; glows[i].style.opacity = (a * s[2]).toFixed(3);
     }
+    if (soft) { fill.style.opacity = '1'; for (i = 0; i < strokes.length; i++) strokes[i].style.opacity = '0'; return ms >= 620; }
+    var f = OUT(cl((ms - 980) / 420)), so = 1 - OUT(cl((ms - 1120) / 380));
+    fill.style.opacity = f.toFixed(3);
+    for (i = 0; i < strokes.length; i++) {
+      strokes[i].style.strokeDashoffset = (1 - DRAW(cl((ms - WR[i][0]) / WR[i][1]))).toFixed(4);
+      strokes[i].style.opacity = so.toFixed(3);
+    }
+    return ms >= 1500;
   }
-  var ease = function (x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
-  var cl = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   function tick(now) {
-    if (!t0) {
+    if (!t0) {   // cold start: hold the (black) first frame until the page has really painted, then reveal the web view
       if (!w0) w0 = now;
       if (!fcp && mode === 'cold' && now - w0 < 1500) { raf = requestAnimationFrame(tick); return; }
       if (mode === 'cold' && !sh) { sh = now; try { if (window.RoutinesNative) RoutinesNative.shown(); } catch (e) {} }
       if (mode === 'cold' && now - sh < 60) { raf = requestAnimationFrame(tick); return; }
       t0 = now;
-      if (el.classList.contains('wait')) { el.style.transition = 'none'; el.classList.remove('wait'); void el.offsetWidth; el.style.transition = ''; }
     }
-    var ms = now - t0, soft = mode === 'resume', SW = soft ? 560 : 880;
-    var f = cl(ms / SW), h = H0 + N * ease(f);
-    draw(h, h - H0, soft ? 0 : cl(ms / 160));
-    if (!soft) {   // 日々: soften out, then focus back in
-      var b = ms < 140 ? 7 * (ms / 140) : 7 * (1 - ease(cl((ms - 300) / 560)));
-      txt.style.filter = b > .05 ? 'blur(' + b.toFixed(2) + 'px)' : '';
-      txt.style.opacity = (ms < 140 ? 1 - .8 * ms / 140 : .2 + .8 * ease(cl((ms - 300) / 560))).toFixed(3);
-      txt.style.transform = 'scale(' + (1 - .04 * Math.sin(Math.PI * f)).toFixed(4) + ')';
-    }
-    if (ms < SW + (soft ? 20 : 60)) raf = requestAnimationFrame(tick); else finish();
+    if (frame(now - t0)) finish(); else raf = requestAnimationFrame(tick);
   }
   function finish() {
     if (ended || !el) return; ended = true; cancelAnimationFrame(raf);
     try { if (window.RoutinesNative) RoutinesNative.shown(); } catch (e) {}
-    if (dots.length) draw(H0 + N, N, 0);
-    if (txt) { txt.style.filter = ''; txt.style.opacity = ''; txt.style.transform = ''; }
-    var e = el; e.classList.add('out');
+    frame(1e5);   // settled logo (also the tap-to-skip target), then the exit transition
+    var e = el; void e.offsetWidth; e.classList.add('out');
     var b = document.body; b.classList.add('unboot'); b.classList.remove('boot'); document.documentElement.classList.remove('booting');
     window.__bootRevealed = true;
     try { if (window.__onBootReveal) window.__onBootReveal(mode); } catch (x) {}
-    setTimeout(function () { if (e.parentNode) e.parentNode.removeChild(e); if (el === e) el = null; }, 560);
+    setTimeout(function () { if (e.parentNode) e.parentNode.removeChild(e); if (el === e) el = null; }, 600);
     setTimeout(function () { b.classList.remove('unboot'); }, 800);
   }
   function play(m) {
     if (!ended) return; mode = m; ended = false; t0 = 0; w0 = 0; sh = 0;
     if (el && el.parentNode) el.parentNode.removeChild(el);
-    if (m === 'resume') { if (RMQ) { ended = true; return; } build(true); el.style.opacity = '0'; requestAnimationFrame(function () { el.style.opacity = '1'; }); }
+    if (m === 'resume') { if (RMQ) { ended = true; return; } build(true); requestAnimationFrame(function () { if (el) el.classList.add('in'); }); }
     else build(false);
-    if (RMQ) { el.classList.add('rm'); setTimeout(finish, 120); return; }
-    draw(H0, 0, 0);
+    if (RMQ) { el.classList.add('rm'); frame(1e5); try { if (window.RoutinesNative) RoutinesNative.shown(); } catch (e) {} setTimeout(finish, 450); return; }
+    frame(0);
     raf = requestAnimationFrame(tick);
   }
   window.__boot = { play: play, finish: finish };
@@ -644,7 +654,7 @@ function occurrences(from, days) {
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.14';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.15';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
