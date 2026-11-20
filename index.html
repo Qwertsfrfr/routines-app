@@ -475,7 +475,7 @@ function load() {
   data.reminders = data.reminders || []; data.ticks = data.ticks || { date: '', map: {} };
   rollDay();
 }
-function save() { gcSoon(); try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { saveFailed = true; } try { clearTimeout(window._rs); window._rs = setTimeout(() => { scheduleTriggers(); }, 400); } catch (e) {} }
+function save() { gcSoon(); try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { saveFailed = true; } try { clearTimeout(window._rs); window._rs = setTimeout(() => { bridgeSync(); scheduleTriggers(); }, 400); } catch (e) {} }
 function rollDay() { const t = dstr(new Date()); if (data.ticks.date !== t) { data.ticks = { date: t, map: {} }; save(); } }
 function getFired() { try { return JSON.parse(localStorage.getItem(FIRED) || '{}'); } catch (e) { return {}; } }
 function setFired(f) { try { localStorage.setItem(FIRED, JSON.stringify(f)); } catch (e) {} }
@@ -517,11 +517,40 @@ function occurrences(from, days) {
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.12';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.13';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
 let nativePerm = 'default';
+/* ---------- native widget / live-notification bridge (only in APKs that ship the RoutineBridge plugin) ---------- */
+const RB = isNative && window.Capacitor.isPluginAvailable && window.Capacitor.isPluginAvailable('RoutineBridge') ? window.Capacitor.Plugins.RoutineBridge : null;
+const LIVEK = 'routines-live-v1';
+let liveOn = (() => { try { return localStorage.getItem(LIVEK) !== '0'; } catch (e) { return true; } })();
+function bridgeSync() {
+  if (!RB || !data) return;
+  try {
+    const snap = { v: 1, live: liveOn, ticks: data.ticks, routines: data.routines.map(r => ({ id: r.id, name: r.name, emoji: r.emoji || '', time: r.time, dur: Math.max(15, routineDur(r)), days: r.days, steps: r.steps.map(s => ({ id: s.id, t: s.text })) })) };
+    RB.sync({ json: JSON.stringify(snap) }).catch(() => {});
+  } catch (e) {}
+}
+let pendBusy = false;
+async function bridgePull() {   // apply steps ticked from the widget / notification / Glyph, then push the merged state back
+  if (!RB || pendBusy) return; pendBusy = true;
+  try {
+    const r = await RB.getPendingTicks(), list = (r && r.ticks) || [];
+    rollDay(); let ch = false;
+    for (const e of list) {
+      if (!e || e.d !== data.ticks.date) continue;
+      const ro = data.routines.find(x => x.id === e.r); if (!ro || !ro.steps.some(x => x.id === e.s)) continue;
+      const a = data.ticks.map[e.r] = data.ticks.map[e.r] || [];
+      if (!a.includes(e.s)) { a.push(e.s); ch = true; }
+    }
+    if (list.length) await RB.clearPendingTicks({ count: list.length });
+    if (ch) { save(); if (!sheetOpen()) render(); else liveToday(); }
+    bridgeSync();
+  } catch (e) {} finally { pendBusy = false; }
+}
+if (RB) { try { RB.addListener('pendingTicks', () => bridgePull()); } catch (e) {} }
 const hid = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
 async function nativeInit() {
   try { const p = await LN.checkPermissions(); nativePerm = p.display === 'granted' ? 'granted' : (p.display === 'denied' ? 'denied' : 'default'); } catch (e) {}
@@ -1349,7 +1378,9 @@ function viewSettings() {
     ? (p === 'granted' ? 'Routines and reminders are scheduled on this device and arrive even when the app is closed.' : 'Allow notifications to get a nudge when each routine starts.')
     : (p === 'granted' ? (hasTriggers() ? 'Scheduled in the background. ' : 'Checked while the app is open. ') : '') + 'Android may delay or skip notifications while the app is fully closed, especially with battery saver on. ' + (hasTriggers() ? '' : 'Scheduled notifications are not supported here, so reminders fire reliably only while the app is open (missed ones fire when you come back).')}</p>
   ${p !== 'granted' ? `<button class="btn pri full" id="perm" ${p === 'denied' || p === 'unsupported' ? 'disabled' : ''}>${ic('reminders', 18)}Enable notifications</button>` : `<button class="btn full" id="testn">${ic('reminders', 18)}Send test notification</button>`}
-  ${p === 'denied' ? '<p class="note" style="margin:12px 0 0">Blocked. Enable them in system settings.</p>' : ''}</section>
+  ${p === 'denied' ? '<p class="note" style="margin:12px 0 0">Blocked. Enable them in system settings.</p>' : ''}
+  ${RB ? `<button class="ckrow ${liveOn ? 'on' : ''}" id="livet"><span class="box">${CHECK}</span><span class="grow">Live routine on lock screen</span><span class="mono mut">ongoing</span></button>
+  <div class="row" style="margin-top:14px"><button class="btn grow" data-pinw="0">Add widget</button><button class="btn grow" data-pinw="1">Small widget</button></div>` : ''}</section>
   <section class="set r"><div class="k"><span class="mono">Data</span><span class="mono mut">On this device</span></div>
   <div class="row"><button class="btn grow" id="exp">${ic('down', 18)}Export</button><button class="btn grow" id="imp">${ic('up', 18)}Import</button></div>
   <button class="ckrow ${expPhotos ? 'on' : ''}" id="exph"><span class="box">${CHECK}</span><span class="grow">Include photos in export</span><span class="mono mut">larger file</span></button>
@@ -1538,6 +1569,8 @@ document.addEventListener('click', ev => {
   if ('aicopy' in D) { const lb = D.aicopy; copyText(aiPrompt()).then(ok => { if (!t.isConnected) return; if (!ok) { toast('Couldn\u2019t copy. Select the text above instead.'); return; } t.innerHTML = ic('check', 18) + '<span>Copied</span>'; t.classList.remove('pop'); void t.offsetWidth; t.classList.add('pop'); buzz(8); clearTimeout(t._t); t._t = setTimeout(() => { if (t.isConnected) t.innerHTML = ic('copy', 18) + '<span>' + lb + '</span>'; }, 1800); }); return; }
   if (t.id === 'aipaste') { (async () => { const ta = $('#ai-in'); if (!ta) return; const txt = await readClip(); if (txt) { ta.value = txt; aiParse(); const o = $('#ai-out'); if (o && o.scrollIntoView) setTimeout(() => o.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' }), 60); } else { ta.focus(); toast('Long-press the box and tap Paste'); } })(); return; }
   if (t.id === 'aiadd') { aiCommit(); return; }
+  if (D.pinw != null && RB) { RB.pinWidget({ small: D.pinw === '1' }).then(r => { if (!r || !r.ok) toast('Long-press the home screen, then Widgets'); }).catch(() => {}); return; }
+  if (t.id === 'livet') { liveOn = !liveOn; try { localStorage.setItem(LIVEK, liveOn ? '1' : '0'); } catch (e) {} t.classList.toggle('on', liveOn); bridgeSync(); return; }
   if (t.id === 'exph') { expPhotos = !expPhotos; try { localStorage.setItem(EXPH, expPhotos ? '1' : '0'); } catch (e) {} t.classList.toggle('on', expPhotos); const bx = t.querySelector('.box'); bx.classList.remove('pop'); if (expPhotos) { void bx.offsetWidth; bx.classList.add('pop'); } return; }
   if (D.rall) {
     const r = data.routines.find(x => x.id === D.rall); if (!r) return;
@@ -1703,9 +1736,10 @@ function otaToast(U, id) {
 buildNav(); load(); render(true);
 setInterval(() => { if (!document.hidden) { tickCD(); if (!sheetOpen() && new Date().getSeconds() === 0) render(); } }, 1000);
 setInterval(checkDue, 15000);                                   // fallback while app is open
-document.addEventListener('visibilitychange', () => { if (!document.hidden) { rollDay(); if (!sheetOpen()) render(); checkDue(); } });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { rollDay(); if (!sheetOpen()) render(); checkDue(); bridgePull(); } });
 window.addEventListener('focus', checkDue);
 if (isNative) nativeInit();
+if (RB) bridgePull();
 if (isNative) otaCheck();
 else if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { scope: './' }).then(() => navigator.serviceWorker.ready).then(r => { swReg = r; resync(); }).catch(e => console.warn('SW failed', e));
