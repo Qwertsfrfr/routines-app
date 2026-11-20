@@ -335,9 +335,96 @@ html[data-dir=back]::view-transition-new(main){animation-name:vtInB}
 @keyframes vtOutB{to{opacity:0;transform:translateX(8px)}}
 @keyframes vtInB{from{opacity:0;transform:translateX(-8px)}}
 
+/* chunky rounded cards, calmer rhythm */
+.hero{border-radius:28px;padding:24px}.hero::after{border-radius:27px}
+.sh{margin-top:52px}
+.rr,.rm{padding:18px;margin-bottom:10px;border:1px solid var(--line);border-radius:22px;background:var(--fill);transition:transform var(--d2) var(--e),background-color var(--d2) var(--e),opacity var(--d3) var(--e)}
+.rr:active{background:rgba(255,255,255,.06)}
+.rm.on{opacity:.55}
+
+/* visual countdown ring on the Now card */
+.vt{position:relative;display:grid;place-items:center;width:min(62vw,236px);aspect-ratio:1;margin:26px auto 2px}
+.vt>svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.vt .tks{stroke:rgba(255,255,255,.16)}
+.vt .trk{stroke:rgba(255,255,255,.07)}
+.vt .drn{stroke:#fff;stroke-linecap:round;transition:stroke-dashoffset 1s linear;filter:drop-shadow(0 0 7px rgba(255,255,255,.35))}
+.stg .vt .drn,.vt.fresh .drn{animation:drin 1200ms var(--e) both 220ms}
+@keyframes drin{from{stroke-dashoffset:var(--c)}}
+.vt .in{position:relative;display:flex;flex-direction:column;align-items:center}
+.vt .cd{justify-content:center;font-size:clamp(34px,11vw,46px)}
+.vt .cdl{margin-top:10px;color:var(--t3)}
+.vt.up .drn{animation:upp 1.6s var(--e) infinite}
+@keyframes upp{50%{opacity:.35}}
+.ctas{display:flex;gap:10px;margin-top:22px}.ctas .cta{margin-top:0;flex:1}
+.cta2{width:52px;height:52px;flex:none;display:grid;place-items:center;border:1px solid var(--line2);border-radius:15px;background:var(--fill);color:var(--t1);transition:transform var(--d1) var(--e),background-color var(--d2)}
+.cta2:active{transform:scale(.94);background:rgba(255,255,255,.08)}
+
+/* proportional time-block timeline */
+.tl{position:relative;margin-top:20px}
+.tl .rail{position:absolute;left:51px;top:0;bottom:0;width:1px;background:linear-gradient(var(--line2),var(--line) 92%,transparent)}
+.tl .rail i{position:absolute;left:0;top:0;width:1px;height:var(--ny,0);background:linear-gradient(transparent,rgba(255,255,255,.55));transition:height 1s linear}
+.hl,.gl{position:absolute;left:0;width:44px;transform:translateY(-50%);font:400 10.5px/1 var(--mono);letter-spacing:.02em;color:var(--t4)}
+.gl{color:var(--t2);transform:none;padding-top:15px}
+.gl::after{content:"";position:absolute;left:48px;top:16px;width:7px;height:7px;border-radius:50%;background:#000;box-shadow:inset 0 0 0 1.5px var(--line3)}
+.gl.now{color:transparent}.gl.now::after{display:none}
+.gl.past{color:var(--t4)}.gl.past::after{box-shadow:inset 0 0 0 1.5px var(--t4)}
+.gap{position:absolute;left:66px;right:0;display:flex;align-items:center;gap:10px;color:var(--t4);font:400 10.5px var(--mono);letter-spacing:.06em}
+.gap::after{content:"";flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--line2) 0 3px,transparent 3px 7px)}
+.tl .tr{position:absolute;left:66px;right:0;width:auto;align-items:flex-start;padding:0 8px 0 18px;border:1px solid var(--line2);border-bottom:1px solid var(--line2);border-radius:22px;background:linear-gradient(rgba(255,255,255,.045),rgba(255,255,255,.015));isolation:isolate;transition:opacity 400ms var(--e),background-color 400ms var(--e),border-color 400ms var(--e),transform var(--d2) var(--e)}
+.tl .trb{align-self:stretch;align-items:flex-start;padding:15px 0}
+.tl .tr .th{margin-top:12px}
+.tl .tdone{margin-top:4px}
+.tl .tr:has(.trb:active){transform:scale(.985)}
+.tl .trb:active{transform:none}
+.tl .tr.fin{background:none;border-color:var(--line)}
+.tl .tr.past{opacity:.42}
+.tl .tr.now{border-color:transparent;background:var(--line2);overflow:hidden}
+.tl .tr.now::before{content:"";position:absolute;z-index:-2;left:50%;top:50%;width:150%;aspect-ratio:1;background:conic-gradient(transparent 0deg 250deg,rgba(255,255,255,.1) 295deg,rgba(255,255,255,.7) 348deg,#fff 357deg,transparent 360deg);transform:translate(-50%,-50%);animation:beam 7s linear infinite}
+.tl .tr.now::after{content:"";position:absolute;z-index:-1;inset:1px;border-radius:21px;background:radial-gradient(120% 120% at 0% 0%,rgba(255,255,255,.08),transparent 60%),#070707}
+.nl{position:absolute;left:0;right:0;top:0;height:0;z-index:3;pointer-events:none;transform:translateY(var(--ny,0));transition:transform 1s linear}
+.nl::before{content:"";position:absolute;left:51px;right:0;top:-.75px;height:1.5px;background:linear-gradient(90deg,#fff,rgba(255,255,255,.5) 40%,rgba(255,255,255,.08))}
+.nl::after{content:"";position:absolute;left:47.5px;top:-4px;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.14),0 0 14px rgba(255,255,255,.5)}
+.nl b{position:absolute;left:0;top:0;transform:translateY(-50%);padding:3px 6px 2px;border-radius:999px;background:#fff;color:#000;font:500 10px/1.2 var(--mono);letter-spacing:.02em}
+.calm{margin:22px 0 0 66px;color:var(--t3);font-family:var(--disp);font-style:italic;font-size:19px;line-height:1.3}
+
+/* focus mode */
+body.focused main{transform:scale(.94);opacity:.3}
+.focus{position:fixed;inset:0;z-index:15;display:flex;flex-direction:column;padding:calc(10px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));background:radial-gradient(120% 55% at 50% 0%,rgba(255,255,255,.07),transparent 62%),#000;opacity:0;transform:scale(1.04);pointer-events:none;transition:opacity 360ms var(--e),transform 560ms var(--sheetE)}
+.focus.open{opacity:1;transform:none;pointer-events:auto}
+.fz-top{display:flex;align-items:center;gap:8px;max-width:560px;width:100%;margin:0 auto}
+.fz-top .x{margin-left:-10px}
+.fz-k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fz-bar{display:flex;gap:5px;max-width:560px;width:100%;margin:6px auto 0}
+.fz-bar i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;position:relative}
+.fz-bar i::after{content:"";position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform 520ms var(--e)}
+.fz-bar i.on::after{transform:none}
+.fz-bar i.cur{background:rgba(255,255,255,.3)}
+.fz-stage{position:relative;flex:1;display:flex;align-items:center;justify-content:center;max-width:560px;width:100%;margin:0 auto;min-height:0}
+.fz-step{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;animation:fzin 520ms var(--e) both}
+.fz-step.out{position:absolute;left:0;right:0;animation:fzout 300ms var(--e) forwards;pointer-events:none}
+@keyframes fzin{from{opacity:0;transform:translateX(28px);filter:blur(8px)}}
+@keyframes fzout{to{opacity:0;transform:translateX(-28px);filter:blur(8px)}}
+.fz-n{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase}
+.fz-t{margin:12px 0 0;font-family:var(--disp);font-style:italic;font-size:clamp(36px,11vw,54px);line-height:1.02;letter-spacing:-.01em;color:var(--fg);overflow-wrap:anywhere}
+.fz-ph{display:block;width:min(52vw,210px);aspect-ratio:1;margin-bottom:26px;border-radius:26px;overflow:hidden;border:1px solid var(--line2);background:var(--fill)}
+.fz-ph img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity var(--d3) var(--e)}.fz-ph img.ld{opacity:1}
+.fz-step .vt{width:min(54vw,212px);margin-top:30px}
+.fz-hint{margin-top:18px;color:var(--t3)}
+.fz-acts{display:flex;gap:10px;max-width:560px;width:100%;margin:0 auto}
+.fz-acts .btn{height:60px;border-radius:18px;font-size:16px}
+.fz-acts .pri{flex:1}.fz-acts .fz-skip{width:110px}
+.fz-win{position:relative;width:112px;height:112px;margin-bottom:28px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#000;animation:winin 700ms var(--spring) both 80ms}
+.fz-win::after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid #fff;animation:burst 900ms var(--e) both 260ms}
+.fz-win svg{width:46px;height:46px}
+.fz-win path{fill:none;stroke:currentColor;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:22;stroke-dashoffset:22;animation:draw 420ms var(--e) forwards 420ms}
+@keyframes winin{from{transform:scale(.3);opacity:0}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.fz-end .mono{margin-top:14px}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.001ms!important;transition-delay:0s!important}
-  .bgfx i,.hero::before,.cta::after,.pulse::after{animation:none!important}
+  .bgfx i,.hero::before,.cta::after,.pulse::after,.tl .tr.now::before,.vt.up .drn{animation:none!important}
+  .fz-win path{stroke-dashoffset:0}
 }
 </style>
 </head>
@@ -346,6 +433,7 @@ html[data-dir=back]::view-transition-new(main){animation-name:vtInB}
 <main id="main"></main>
 <button class="fab" id="fab" aria-label="Add"></button>
 <nav id="nav"></nav>
+<div class="focus" id="focus" role="dialog" aria-modal="true" aria-label="Focus"></div>
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
 <div class="dscrim" id="dscrim"></div>
@@ -429,7 +517,7 @@ function occurrences(from, days) {
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.11';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.12';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
@@ -519,6 +607,8 @@ const PATHS = {
   copy: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
   paste: '<path d="M15 2H9a1 1 0 0 0-1 1v2c0 .6.4 1 1 1h6c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1Z"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2M16 4h2a2 2 0 0 1 2 2v2M11 14h10"/><path d="m17 10 4 4-4 4"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
+  list: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  play: '<path d="M6 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L7.5 3.64A1 1 0 0 0 6 4.5Z"/>',
   alert: '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>'
 };
 const ic = (n, s) => `<svg class="ic" width="${s || 22}" height="${s || 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PATHS[n]}</svg>`;
@@ -635,7 +725,7 @@ function liveToday() {
   const hero = m.querySelector('[data-hero]');
   if (hero) {
     const r = data.routines.find(x => x.id === hero.dataset.hero);
-    if (r) { const [a, b] = progress(r); const hs = hero.querySelector('[data-hsteps]'); if (hs) hs.textContent = a + ' of ' + b + ' steps';
+    if (r) { const [a, b] = progress(r); const hs = hero.querySelector('[data-hsteps]'); if (hs) hs.textContent = stepsLine(a, b);
       setRing(hero.querySelector('.ringw svg'), a, b); countTo(hero.querySelector('.ringw .rt'), b ? Math.round(a / b * 100) : 0, '%'); }
   }
 }
@@ -1141,6 +1231,47 @@ function go(t) {
   run();
 }
 const hhmm = d => pad(d.getHours()) + ':' + pad(d.getMinutes());
+const stepsLine = (a, b) => b && a === b ? 'All steps done. Nice.' : a + ' of ' + b + ' steps';
+/* big draining countdown ring: s..e are epoch ms; inner is the centre markup */
+function vtRing(s, e, inner, key) {
+  const R = 88, c = +(2 * Math.PI * R).toFixed(2), off = vtOff(s, e, c);
+  return `<div class="vt"><svg viewBox="0 0 200 200" aria-hidden="true"><circle class="tks" cx="100" cy="100" r="99" fill="none" stroke-width="3" style="stroke-dasharray:1 ${(2 * Math.PI * 99 / 60 - 1).toFixed(3)}"/><circle class="trk" cx="100" cy="100" r="${R}" fill="none" stroke-width="5"/><circle class="drn" cx="100" cy="100" r="${R}" fill="none" stroke-width="5" data-drain="${s}|${e}" style="--c:${c};stroke-dasharray:${c};stroke-dashoffset:${off}"/></svg><div class="in">${inner}</div></div>`;
+}
+function vtOff(s, e, c, n) { const f = e > s ? Math.max(0, Math.min(1, (e - (n || Date.now())) / (e - s))) : 0; return +(c * (1 - f)).toFixed(2); }
+/* time-block layout: block height follows duration, long gaps are compressed; ymap() maps minutes to px */
+let TL = null;
+function tlLayout(list, nowM) {
+  const K = 1.5, MINH = 80, GAPMIN = 12, GAPMAX = 60, seg = [], blocks = [], gaps = [];
+  const it = list.map(r => ({ r, s: mins(r.time), e: mins(r.time) + routineDur(r) }));
+  const m0 = Math.max(0, Math.min(it[0].s, nowM) - 20), m1 = Math.min(1440, Math.max(Math.max(...it.map(x => x.e)), nowM) + 20);
+  let c = m0, y = 0;
+  const gap = (to, last) => {
+    const m = Math.max(0, to - c), gh = Math.min(GAPMAX, Math.max(GAPMIN, m * K));
+    seg.push([c, Math.max(c, to), y, y + gh]);
+    if (m >= 45 && gh >= 40 && !last && blocks.length) gaps.push({ y, h: gh, m: Math.round(m) });
+    y += gh; c = Math.max(c, to);
+  };
+  for (const x of it) {
+    gap(x.s);
+    const bh = Math.max(MINH, (x.e - x.s) * K), e = Math.max(x.e, c + 1);
+    seg.push([c, e, y, y + bh]); blocks.push({ r: x.r, y, h: bh }); y += bh; c = e;
+  }
+  gap(m1, true);
+  const L = { seg, blocks, gaps, h: Math.round(y), hours: [] };
+  L.ny = Math.round(ymap(L, nowM));
+  const taken = blocks.map(b => b.y + 20);
+  for (let hr = Math.ceil(m0 / 60); hr * 60 <= m1; hr++) {
+    const hy = ymap(L, hr * 60), sg = seg.find(q => hr * 60 >= q[0] && hr * 60 <= q[1]);
+    if (sg && sg[1] > sg[0] && (sg[3] - sg[2]) / (sg[1] - sg[0]) < K * .8) continue;   // skip hours inside compressed gaps
+    if (taken.every(t => Math.abs(t - hy) > 24)) { L.hours.push({ h: hr % 24, y: Math.round(hy) }); taken.push(hy); }
+  }
+  return L;
+}
+function ymap(L, m) {
+  const S = L.seg; if (!S.length) return 0; if (m <= S[0][0]) return S[0][2];
+  for (const [a, b, y0, y1] of S) if (m <= b) return b > a ? y0 + (y1 - y0) * (m - a) / (b - a) : y1;
+  return S[S.length - 1][3];
+}
 function viewToday() {
   const nn = nowNext(), list = todaysRoutines(), now = new Date(), nowM = now.getHours() * 60 + now.getMinutes();
   const wd = now.toLocaleDateString(undefined, { weekday: 'long' }), md = now.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
@@ -1154,10 +1285,11 @@ function viewToday() {
   if (nn.cur) {
     const r = nn.cur, [a, b] = progress(r);
     const pc = b ? Math.round(a / b * 100) : 0, ce = nn.curEnd.getTime();
+    const cs = ce - routineDur(r) * 60000;
     h += `<section class="hero fx r" data-hero="${r.id}"><div class="lab"><i class="pulse"></i>Now · until ${hhmm(nn.curEnd)}</div>
-      <div class="hrow"><div class="grow"><div class="title bl">${words(r.name)}</div><div class="mono mut" data-hsteps>${a} of ${b} steps</div></div><div class="ringw">${ring(a, b, 56, 2.5)}<span class="rt tk" data-n="${pc}" data-sfx="%">${pc}%</span></div></div>
-      <div class="cdw"><div class="cd roll" data-cd="${ce}" ${rollInit('cd', fmtCD((ce - now.getTime()) / 1000))}</div></div><div class="mono mut cdl">Remaining</div>
-      <button class="cta" data-open="${r.id}"><span>Open checklist</span>${ic('arrow', 18)}</button></section>`;
+      <div class="hrow"><div class="grow"><div class="title bl">${words(r.name)}</div><div class="mono mut" data-hsteps>${stepsLine(a, b)}</div></div><div class="ringw">${ring(a, b, 56, 2.5)}<span class="rt tk" data-n="${pc}" data-sfx="%">${pc}%</span></div></div>
+      ${vtRing(cs, ce, `<div class="cd roll" data-cd="${ce}" ${rollInit('cd', fmtCD((ce - now.getTime()) / 1000))}</div><div class="mono cdl">Remaining</div>`)}
+      <div class="ctas"><button class="cta" data-focus="${r.id}"><span>Start focus</span>${ic('arrow', 18)}</button><button class="cta2" data-open="${r.id}" aria-label="Open checklist">${ic('list', 20)}</button></div></section>`;
     if (nn.nxt) h += nextLine();
   } else if (nn.nxt) {
     const same = nn.nxtAt.toDateString() === now.toDateString();
@@ -1170,12 +1302,21 @@ function viewToday() {
   if (!list.length) h += data.routines.length
     ? `<div class="empty r"><span class="eic">${ic('today', 26)}</span><b>Rest day</b><span class="mono mut">Nothing scheduled today</span></div>`
     : `<div class="empty r"><span class="eic">${ic('routines', 26)}</span><b>No routines yet</b><span class="mono mut">Create a routine to fill your day</span><button class="btn pri" data-new="rt">${ic('plus', 18)}New routine</button></div>`;
-  else h += list.map(r => {
-    const [a, b] = progress(r), isNow = nn.cur && nn.cur.id === r.id, f = b && a === b, past = !isNow && mins(r.time) + routineDur(r) <= nowM;
-    return `<div class="tr fx r ${isNow ? 'now' : ''} ${f ? 'fin' : ''} ${past && !f ? 'past' : ''}" data-rid="${r.id}"><button class="trb" data-open="${r.id}"><span class="tm">${r.time}</span>
+  else {
+    const L = tlLayout(list, nowM + now.getSeconds() / 60); TL = L;
+    let g = `<div class="tl r" style="height:${L.h}px;--ny:${L.ny}px"><div class="rail"><i></i></div>`;
+    g += L.hours.map(x => `<span class="hl" style="top:${x.y}px">${pad(x.h)}:00</span>`).join('');
+    g += L.gaps.map(x => `<div class="gap" style="top:${x.y}px;height:${x.h}px">${x.m >= 60 ? Math.floor(x.m / 60) + 'h' + (x.m % 60 ? ' ' + x.m % 60 + 'm' : '') : x.m + 'm'} free</div>`).join('');
+    g += L.blocks.map(({ r, y, h: bh }) => {
+      const [a, b] = progress(r), isNow = nn.cur && nn.cur.id === r.id, f = b && a === b, past = !isNow && mins(r.time) + routineDur(r) <= nowM;
+      const st = isNow ? 'now' : past ? 'past' : '';
+      return `<span class="gl ${st}" style="top:${y}px">${r.time}</span><div class="tr fx r ${isNow ? 'now' : ''} ${f ? 'fin' : ''} ${past && !f ? 'past' : ''}" data-rid="${r.id}" style="top:${y}px;height:${bh}px"><button class="trb" data-open="${r.id}">
       <span class="grow"><span class="nm"><i class="sq" style="background:${esc(r.color)}"></i><span class="nmt">${esc(r.name)}</span>${isNow ? '<em class="tag">Now</em>' : ''}</span><span class="mono mut mt">${a}/${b} steps · ${routineDur(r)} min</span></span></button>${thumb(r.img, r.name)}
       <button class="tdone ${f ? 'on' : ''}" data-rall="${r.id}" aria-label="${f ? 'Mark not done' : 'Mark done'}"><span class="ringw">${ring(a, b, 28, 2)}</span><i class="tfill"></i>${CHECK}</button></div>`;
-  }).join('');
+    }).join('');
+    h += g + `<div class="nl" data-nl><b>${hhmm(now)}</b></div></div>`;
+    if (fin === list.length) h += `<p class="calm r">That’s the day. Rest well.</p>`;
+  }
   const rem = data.reminders.filter(r => !r.done && dstr(new Date(r.at)) === dstr(now)).sort((a, b) => a.at.localeCompare(b.at));
   if (rem.length) h += `<div class="sh r"><span>Reminders</span><i></i><span>${rem.length}</span></div>` + rem.map(remCard).join('');
   return h;
@@ -1226,6 +1367,10 @@ function tickCD() {
   document.querySelectorAll('[data-cd]').forEach(e => { const s = fmtCD((+e.dataset.cd - n.getTime()) / 1000); e.dataset.roll ? setRoll(e, e.dataset.roll, s) : e.textContent = s; });
   const hm = document.querySelector('[data-clock=hm]');
   if (hm) { setRoll(hm, 'hm', hhmm(n)); setRoll(document.querySelector('[data-clock=s]'), 's', pad(n.getSeconds())); }
+  document.querySelectorAll('#main [data-drain]').forEach(e => { const [s, t] = e.dataset.drain.split('|').map(Number); e.style.strokeDashoffset = vtOff(s, t, parseFloat(e.style.getPropertyValue('--c')), n.getTime()); });
+  const nl = document.querySelector('[data-nl]');
+  if (nl && TL) { const y = Math.round(ymap(TL, n.getHours() * 60 + n.getMinutes() + n.getSeconds() / 60) * 10) / 10; nl.parentElement.style.setProperty('--ny', y + 'px'); const b = nl.firstChild; if (b.textContent !== hhmm(n)) b.textContent = hhmm(n); }
+  focusTick(n);
 }
 
 /* ---------- sheets ---------- */
@@ -1248,7 +1393,67 @@ function openChecklist(id) {
   openSheet(`<div class="ck-head"><div class="grow"><div class="mono mut">${r.time} · ${routineDur(r)} min</div><div class="ck-title">${esc(r.name)}</div></div>${thumb(r.img, r.name, 'lg')}
    <div class="ringw" id="ckring">${ring(a, b, 52, 3)}<span class="rt" id="ckcount">${b && a === b ? 'Done' : a + '/' + b}</span></div></div><div>` +
    (r.steps.length ? r.steps.map((s, i) => `<button class="step fx ${t.includes(s.id) ? 'on' : ''}" style="--i:${i}" data-tick="${r.id}|${s.id}"><span class="box">${CHECK}</span><span class="tx grow"><span>${esc(s.text)}</span></span>${thumb(s.img, s.text)}${+s.mins ? `<span class="mono mut">${+s.mins}m</span>` : ''}</button>`).join('') : '<div class="empty sm"><b>No steps yet</b><span class="mono mut">Tap Edit to add some</span></div>') +
-   `</div><div class="acts"><button class="btn" data-edit="${r.id}">${ic('edit', 18)}Edit</button><button class="btn pri grow" data-close>Done</button></div>`);
+   `</div><div class="acts"><button class="btn" data-edit="${r.id}">${ic('edit', 18)}Edit</button>${r.steps.length ? `<button class="btn" data-focus="${r.id}">${ic('play', 16)}Focus</button>` : ''}<button class="btn pri grow" data-close>Done</button></div>`);
+}
+
+/* ---------- focus mode: one step at a time ---------- */
+let FS = null;
+function openFocus(id) {
+  const r = data.routines.find(x => x.id === id); if (!r) return;
+  if (!r.steps.length) { openChecklist(id); return; }
+  if (sheetOpen()) closeSheet();
+  const t = data.ticks.map[id] || [], i = r.steps.findIndex(s => !t.includes(s.id));
+  FS = { rid: id, i: i < 0 ? 0 : i, t0: 0, dur: 0, up: false, start: Date.now() };
+  const f = $('#focus');
+  f.innerHTML = `<div class="fz-top"><button class="x" data-fclose aria-label="Close">${ic('x', 22)}</button><div class="grow mono mut fz-k">Focus · ${esc(r.name)}</div><span class="mono mut" id="fzc"></span></div>
+    <div class="fz-bar" id="fzb">${r.steps.map(() => '<i></i>').join('')}</div><div class="fz-stage" id="fzs"></div><div class="fz-acts" id="fza"></div>`;
+  drawFocus(true);
+  requestAnimationFrame(() => { f.classList.add('open'); document.body.classList.add('focused'); });
+}
+function closeFocus() {
+  if (!FS) return; FS = null;
+  const f = $('#focus'); f.classList.remove('open'); document.body.classList.remove('focused');
+  setTimeout(() => { if (!FS) f.innerHTML = ''; }, 600);
+  if (tab === 'today' && !sheetOpen()) render();
+}
+function focusBar(r) {
+  const t = data.ticks.map[r.id] || [];
+  document.querySelectorAll('#fzb i').forEach((e, k) => { e.classList.toggle('on', t.includes(r.steps[k].id)); e.classList.toggle('cur', !!FS && k === FS.i && !FS.end); });
+}
+function drawFocus(first) {
+  const r = data.routines.find(x => x.id === FS.rid); if (!r) { closeFocus(); return; }
+  const st = $('#fzs'), old = st.querySelector('.fz-step:not(.out)'), n = r.steps.length;
+  if (old && !first) { old.classList.add('out'); setTimeout(() => old.remove(), 320); } else if (old) old.remove();
+  let h;
+  if (FS.end) {
+    const [a, b] = progress(r), el = Math.max(1, Math.round((Date.now() - FS.start) / 60000));
+    h = `<div class="fz-step fz-end stg"><div class="fz-win">${CHECK}</div><div class="fz-t bl">${words(a === b ? 'Nice, ' + r.name + ' done.' : 'Good going.')}</div><div class="mono mut">${a} of ${b} steps · ${el} min</div></div>`;
+    $('#fzc').textContent = a + ' / ' + b;
+    $('#fza').innerHTML = `<button class="btn pri" data-fclose>Back to today</button>`;
+  } else {
+    const s = r.steps[FS.i], m = +s.mins || 0;
+    FS.t0 = Date.now(); FS.dur = m * 60000; FS.up = false;
+    h = `<div class="fz-step stg">${s.img ? `<span class="fz-ph" role="button" data-view="${esc(s.img)}" data-cap="${esc(s.text)}">${imgTag(s.img)}</span>` : ''}
+      <div class="mono mut fz-n">Step ${pad(FS.i + 1)}</div><div class="fz-t bl">${words(s.text)}</div>
+      ${m ? vtRing(FS.t0, FS.t0 + FS.dur, `<div class="cd roll" data-fcd ${rollInit('fcd', fmtCD(m * 60))}</div><div class="mono cdl" data-fcl>${m} min</div>`).replace('class="vt"', 'class="vt fresh"') : `<div class="mono fz-hint">Take your time.</div>`}</div>`;
+    $('#fzc').textContent = (FS.i + 1) + ' / ' + n;
+    if (first || !$('#fza').querySelector('[data-fdone]')) $('#fza').innerHTML = `<button class="btn fz-skip" data-fskip>Skip</button><button class="btn pri" data-fdone>${ic('check', 18)}Done</button>`;
+  }
+  st.insertAdjacentHTML('beforeend', h); hydrate(st); focusBar(r);
+}
+function focusNext(done) {
+  const r = data.routines.find(x => x.id === FS.rid); if (!r) { closeFocus(); return; }
+  if (done) { const s = r.steps[FS.i], a = data.ticks.map[r.id] = data.ticks.map[r.id] || []; if (!a.includes(s.id)) { a.push(s.id); save(); } liveToday(); }
+  if (FS.i + 1 >= r.steps.length) { FS.end = true; buzz([12, 60, 30]); } else { FS.i++; buzz(8); }
+  drawFocus();
+}
+function focusTick(n) {
+  if (!FS || FS.end || !FS.dur) return;
+  const el = document.querySelector('#fzs .fz-step:not(.out) [data-fcd]'); if (!el) return;
+  const rem = FS.t0 + FS.dur - n.getTime();
+  setRoll(el, 'fcd', fmtCD(rem / 1000));
+  const d = document.querySelector('#fzs .fz-step:not(.out) [data-drain]'); if (d) d.style.strokeDashoffset = vtOff(FS.t0, FS.t0 + FS.dur, parseFloat(d.style.getPropertyValue('--c')), n.getTime());
+  if (rem <= 0 && !FS.up) { FS.up = true; buzz([10, 80, 10]); const v = el.closest('.vt'); if (v) v.classList.add('up'); const l = document.querySelector('#fzs [data-fcl]'); if (l) l.textContent = 'Time’s up'; }
 }
 let form = null;
 function routineForm(id) {
@@ -1351,6 +1556,10 @@ document.addEventListener('click', ev => {
   }
   if (D.tab) { go(D.tab); return; }
   if (t.id === 'fab') { tab === 'routines' ? routineForm() : reminderForm(); return; }
+  if (D.focus) { openFocus(D.focus); return; }
+  if ('fclose' in D) { closeFocus(); return; }
+  if ('fdone' in D) { if (FS && !FS.end) focusNext(true); return; }
+  if ('fskip' in D) { if (FS && !FS.end) focusNext(false); return; }
   if (D.open) { openChecklist(D.open); return; }
   if (D.edit) { routineForm(D.edit); return; }
   if (D.redit) { reminderForm(D.redit); return; }
@@ -1429,11 +1638,12 @@ document.addEventListener('selectstart', e => { if (!e.target.closest || !e.targ
 function backStep() {
   if (dlgRes) { closeDialog(false); return true; }
   if (V.id) { closeViewer(); return true; }
+  if (FS) { closeFocus(); return true; }
   if (sheetOpen()) { closeSheet(); return true; }
   if (tab !== 'today') { go('today'); return true; }
   return false;
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && (dlgRes || V.id || sheetOpen())) { e.preventDefault(); backStep(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && (dlgRes || V.id || FS || sheetOpen())) { e.preventDefault(); backStep(); } });
 if (isNative) {
   const P = window.Capacitor.Plugins;
   // A registered backButton listener stops the native default (exit); the actual handling runs on the
