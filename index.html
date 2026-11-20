@@ -429,7 +429,7 @@ function occurrences(from, days) {
 
 /* ---------- notifications ---------- */
 let swReg = null;
-const APP_VERSION = '1.0.10';   // bumped by deploy-ota.ps1
+const APP_VERSION = '1.0.11';   // bumped by deploy-ota.ps1
 const OTA_URL = 'https://qwertsfrfr.github.io/routines-app/ota/version.json';
 const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = isNative ? window.Capacitor.Plugins.LocalNotifications : null;
@@ -1034,7 +1034,7 @@ function aiSheet() {
   <p class="note" style="margin:8px 0 0">Copy the prompt into any AI chat, tell it your plans, then paste its reply here. Everything is added to what you already have.</p>
   <div class="ais"><span class="ain">01</span><span>Copy the prompt</span></div>
   <pre class="code" id="ai-tpl">${esc(aiPrompt())}</pre>
-  <button class="btn pri full" id="aicopy">${ic('copy', 18)}<span>Copy prompt</span></button>
+  <button class="btn pri full" data-aicopy="Copy prompt">${ic('copy', 18)}<span>Copy prompt</span></button>
   <div class="ais"><span class="ain">02</span><span>Paste the reply</span></div>
   <textarea id="ai-in" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder='{ "routines": [ … ], "reminders": [ … ] }'></textarea>
   <button class="btn full" id="aipaste" style="margin-top:8px">${ic('paste', 18)}Paste from clipboard</button>
@@ -1212,7 +1212,11 @@ function viewSettings() {
   <section class="set r"><div class="k"><span class="mono">Data</span><span class="mono mut">On this device</span></div>
   <div class="row"><button class="btn grow" id="exp">${ic('down', 18)}Export</button><button class="btn grow" id="imp">${ic('up', 18)}Import</button></div>
   <button class="ckrow ${expPhotos ? 'on' : ''}" id="exph"><span class="box">${CHECK}</span><span class="grow">Include photos in export</span><span class="mono mut">larger file</span></button>
-  <button class="btn full" data-ai style="margin-top:14px">${ic('sparkles', 18)}Import with AI</button>
+  <div class="k" style="margin:22px 0 10px"><span class="mono">AI template</span></div>
+  <p class="note" style="margin:0 0 12px">Copy this, paste it into any AI with your plans, then use Import with AI.</p>
+  <pre class="code" style="max-height:160px;margin-bottom:10px">${esc(aiPrompt())}</pre>
+  <button class="btn full" data-aicopy="Copy template">${ic('copy', 18)}<span>Copy template</span></button>
+  <button class="btn full" data-ai style="margin-top:10px">${ic('sparkles', 18)}Import with AI</button>
   <input type="file" id="file" accept="application/json,.json" hidden>${saveFailed ? '<p class="note acc" style="margin:12px 0 0">Saving failed (storage blocked).</p>' : ''}</section>
   <section class="set r"><div class="k"><span class="mono">Reset</span></div><button class="btn dan full" id="reset">Reset to examples</button></section>
   <section class="set r"><div class="k"><span class="mono">Version</span><span class="mono mut" id="appver">${esc(APP_VERSION)}</span></div></section>`;
@@ -1326,7 +1330,7 @@ document.addEventListener('click', ev => {
   if ('ai' in D) { aiSheet(); return; }
   if (D.pick) { syncRoutineForm(); pickFor = D.pick; const pf = $('#pfile'); pf.value = ''; pf.click(); return; }
   if (D.unpick) { syncRoutineForm(); setSlotImg(D.unpick, null); refreshSlot(D.unpick); return; }
-  if (t.id === 'aicopy') { copyText(aiPrompt()).then(ok => { if (!t.isConnected) return; if (!ok) { toast('Couldn\u2019t copy. Select the text above instead.'); return; } t.innerHTML = ic('check', 18) + '<span>Copied</span>'; t.classList.remove('pop'); void t.offsetWidth; t.classList.add('pop'); buzz(8); clearTimeout(t._t); t._t = setTimeout(() => { if (t.isConnected) t.innerHTML = ic('copy', 18) + '<span>Copy prompt</span>'; }, 1800); }); return; }
+  if ('aicopy' in D) { const lb = D.aicopy; copyText(aiPrompt()).then(ok => { if (!t.isConnected) return; if (!ok) { toast('Couldn\u2019t copy. Select the text above instead.'); return; } t.innerHTML = ic('check', 18) + '<span>Copied</span>'; t.classList.remove('pop'); void t.offsetWidth; t.classList.add('pop'); buzz(8); clearTimeout(t._t); t._t = setTimeout(() => { if (t.isConnected) t.innerHTML = ic('copy', 18) + '<span>' + lb + '</span>'; }, 1800); }); return; }
   if (t.id === 'aipaste') { (async () => { const ta = $('#ai-in'); if (!ta) return; const txt = await readClip(); if (txt) { ta.value = txt; aiParse(); const o = $('#ai-out'); if (o && o.scrollIntoView) setTimeout(() => o.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' }), 60); } else { ta.focus(); toast('Long-press the box and tap Paste'); } })(); return; }
   if (t.id === 'aiadd') { aiCommit(); return; }
   if (t.id === 'exph') { expPhotos = !expPhotos; try { localStorage.setItem(EXPH, expPhotos ? '1' : '0'); } catch (e) {} t.classList.toggle('on', expPhotos); const bx = t.querySelector('.box'); bx.classList.remove('pop'); if (expPhotos) { void bx.offsetWidth; bx.classList.add('pop'); } return; }
